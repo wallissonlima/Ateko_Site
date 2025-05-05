@@ -62,7 +62,7 @@ export const _DeleteQuestion = async (objID: any) => {
 
   console.log(objID);
   try {
-    const response = await api.delete(`/QuestionBruker?objID=${objID}`);
+    const response = await api.delete(`/QuestionBruker?IdQuestion=${objID}`);
     // toast.success("Cliente deletado com sucesso!");
     return response.data.isValid ?? false;
   } catch (error) {

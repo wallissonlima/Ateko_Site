@@ -47,7 +47,7 @@ export function Inicio() {
   });
 
   //Função para trazer as perguntas
-  const getAllQuestion = async () => {
+  const LoadingQuestion = async () => {
     try {
       const result = await _getAllQuestion(); // Nova função de requisição
       if (result) {
@@ -64,7 +64,7 @@ export function Inicio() {
     }
   };
   useEffect(() => {
-    getAllQuestion(); // Chama a função para carregar as perguntas
+    LoadingQuestion(); // Chama a função para carregar as perguntas
   }, []);
 
   //para criar uma nova pergunta
@@ -93,7 +93,7 @@ export function Inicio() {
       questionTexts: "",
     });
     if (result) {
-      getAllQuestion();
+      LoadingQuestion();
       setOpenCadastroQuestion(false);
     }
   };
@@ -108,7 +108,7 @@ export function Inicio() {
         setOpenCadastroQuestion(false); // Fecha o modal após a atualização
 
         if (result) {
-          getAllQuestion();
+          LoadingQuestion();
           setOpenCadastroQuestion(false);
         }
       } else {
@@ -155,7 +155,7 @@ export function Inicio() {
         if (result) {
           toast.success("Cliente deletado com sucesso!", { autoClose: 2000 });
           //   looding();
-          getAllQuestion()
+          LoadingQuestion();
         } else {
           toast.error("Erro ao deletar pergunta.", { autoClose: 2000 });
         }
