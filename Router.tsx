@@ -1,6 +1,8 @@
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Login } from "./src/pages/login";
+import { Inicio } from "./src/pages/Home/inicio";
+import { ProtectedRoute } from "./src/config/protectedRoute";
 
 export function Router() {
   return (
@@ -23,6 +25,14 @@ export function Router() {
       <HashRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route
+            path="/inicio"
+            element={
+              <ProtectedRoute>
+                <Inicio />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </HashRouter>
     </main>

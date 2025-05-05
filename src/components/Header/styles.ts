@@ -7,7 +7,7 @@ export const Context = styled.nav`
   background-color: ${(props) => props.theme['green-300']};
 
   img {
-    width: 5rem;
+    width: 7rem;
   }
 
   .navbar {
