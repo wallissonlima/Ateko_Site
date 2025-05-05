@@ -59,15 +59,13 @@ export const _UpdateQuestion = async (data: any) => {
 };
 
 export const _DeleteQuestion = async (objID: any) => {
-
-  console.log(objID);
   try {
     const response = await api.delete(`/QuestionBruker?IdQuestion=${objID}`);
     // toast.success("Cliente deletado com sucesso!");
     return response.data.isValid ?? false;
   } catch (error) {
-    console.error('Erro na requisição:', error, { autoClose: 3000 });
-    toast.error('Erro ao deletar pergunta.', { autoClose: 3000 });
+    console.error("Erro na requisição:", error, { autoClose: 3000 });
+    toast.error("Erro ao deletar pergunta.", { autoClose: 3000 });
     return false;
   }
-}
+};

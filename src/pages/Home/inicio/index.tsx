@@ -154,7 +154,6 @@ export function Inicio() {
         const result = await _DeleteQuestion(selectedQuestion.objID);
         if (result) {
           toast.success("Cliente deletado com sucesso!", { autoClose: 2000 });
-          //   looding();
           LoadingQuestion();
         } else {
           toast.error("Erro ao deletar pergunta.", { autoClose: 2000 });

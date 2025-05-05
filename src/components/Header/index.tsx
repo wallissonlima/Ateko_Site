@@ -36,7 +36,7 @@ export function Header() {
                   href="#/inicio"
                   className={location.pathname === "/inicio" ? "active" : ""}
                 >
-                  Start
+                  Inicio
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -44,11 +44,25 @@ export function Header() {
                   href="inicio"
                   className={location.pathname === "/teste" ? "active" : ""}
                 >
-                  teste
+                  Agendamentos
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  href="inicio"
+                  className={location.pathname === "/teste" ? "active" : ""}
+                >
+                  Video Educacional
                 </NavLink>
               </NavItem>
             </Nav>
             <div className="DropAdmin">
+              <NavLink
+                href="inicio"
+                className={location.pathname === "/teste" ? "active" : ""}
+              >
+                Sobre nós
+              </NavLink>
               <SignOut onClick={handleLogout} size={25} />
             </div>
           </Collapse>
