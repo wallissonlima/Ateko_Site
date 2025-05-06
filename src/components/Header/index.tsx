@@ -25,8 +25,8 @@ export function Header() {
     <>
       <Context>
         <Navbar>
-          <NavbarBrand href="#/inicio">
-            <img src={logoSigma} alt="Logo Tipo" />
+          <NavbarBrand href="/inicio">
+            {/* <img src={logoSigma} alt="Logo Tipo" /> */}
           </NavbarBrand>
 
           <Collapse navbar>
@@ -49,8 +49,10 @@ export function Header() {
               </NavItem>
               <NavItem>
                 <NavLink
-                  href="inicio"
-                  className={location.pathname === "/teste" ? "active" : ""}
+                  href="#/videoseducacional"
+                  className={
+                    location.pathname === "/videoseducacional" ? "active" : ""
+                  }
                 >
                   Video Educacional
                 </NavLink>

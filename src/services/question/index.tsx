@@ -41,11 +41,12 @@ export const _getAllQuestion = async () => {
   }
 };
 
-export const _UpdateQuestion = async (data: any) => {
+export const _UpdateQuestion = async (objID: any) => {
+  console.log(objID)
   try {
     const response = await api.put(
-      `/QuestionBruker/?objID=${data.objID}`,
-      data,
+      `/QuestionBruker/?IdQuestion=${objID.objID}`,
+      objID,
       { headers: header }
     );
 
@@ -55,6 +56,26 @@ export const _UpdateQuestion = async (data: any) => {
     console.error("Erro na requisição:", error, { autoClose: 2000 });
     toast.error("Erro ao atualizar Pergunta.", { autoClose: 2000 });
     return false;
+  }
+};
+
+export const _findQuestion = async (objID: any) => {
+  try {
+    const response = await api.get(
+      `/QuestionBruker/FindQuestion?objID=${objID}`
+    );
+    if (response.data) {
+      return response.data;
+    } else {
+      toast.info("Não existe registros na base de dados", { autoClose: 3000 });
+      return null;
+    }
+  } catch (error) {
+    console.error("Erro ao carregar a lista de perguntas", error, {
+      autoClose: 3000,
+    });
+
+    toast.error("Erro ao carregar a lista de perguntas", { autoClose: 3000 });
   }
 };
 

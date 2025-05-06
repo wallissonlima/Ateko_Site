@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 import { Login } from "./src/pages/login";
 import { Inicio } from "./src/pages/Home/inicio";
 import { ProtectedRoute } from "./src/config/protectedRoute";
+import { VideosEducacional } from "./src/pages/Home/videos_educacional";
 
 export function Router() {
   return (
@@ -30,6 +31,14 @@ export function Router() {
             element={
               <ProtectedRoute>
                 <Inicio />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/videoseducacional"
+            element={
+              <ProtectedRoute>
+                <VideosEducacional />
               </ProtectedRoute>
             }
           />

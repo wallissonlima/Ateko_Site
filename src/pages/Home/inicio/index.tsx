@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import {
   _createQuestion,
   _DeleteQuestion,
+  _findQuestion,
   _getAllQuestion,
   _UpdateQuestion,
 } from "../../../services/question";
@@ -120,32 +121,32 @@ export function Inicio() {
     }
   };
   //carregar os clietes para editar
-  //   const loodingQuestion = async (e: any) => {
-  //     setIsEditQuestion(true);
-  //     // Encontre a linha (<tr>) mais próxima do elemento clicado
-  //     const row = e.target.closest("tr");
-  //     // Aqui você pode pegar os dados das células da linha, se necessário
-  //     // Por exemplo, se cada célula tiver um dataset com informações relevantes
-  //     const objID = row.querySelector(".objID").innerText;
+  const loodingQuestion = async (e: any) => {
+    setIsEditQuestion(true);
+    // Encontre a linha (<tr>) mais próxima do elemento clicado
+    const row = e.target.closest("tr");
+    // Aqui você pode pegar os dados das células da linha, se necessário
+    // Por exemplo, se cada célula tiver um dataset com informações relevantes
+    const objID = row.querySelector(".objID").innerText;
 
-  //     try {
-  //       setOpenCadastroQuestion(true);
-  //       const cliente = await _find(objID);
-  //       if (cliente) {
-  //         setRegistroQuestion((prevState) => ({
-  //           ...prevState,
-  //           objID: cliente.objID,
-  //           questionTexts: cliente.questionTexts,
-  //         }));
-  //         console.log(cliente);
-  //       } else {
-  //         toast.info("Pergunta não encontrado.", { autoClose: 2000 });
-  //       }
-  //     } catch (error) {
-  //       console.error("Erro ao carregar Pergunta:", error);
-  //       toast.error("Erro ao carregar o Pergunta.", { autoClose: 2000 });
-  //     }
-  //   };
+    try {
+      setOpenCadastroQuestion(true);
+      const cliente = await _findQuestion(objID);
+      if (cliente) {
+        setRegistroQuestion((prevState) => ({
+          ...prevState,
+          objID: cliente.objID,
+          questionTexts: cliente.questionTexts,
+        }));
+        console.log(cliente);
+      } else {
+        toast.info("Pergunta não encontrado.", { autoClose: 2000 });
+      }
+    } catch (error) {
+      console.error("Erro ao carregar Pergunta:", error);
+      toast.error("Erro ao carregar o Pergunta.", { autoClose: 2000 });
+    }
+  };
 
   //Deleta clientes
   const handleDelete = async () => {
@@ -221,6 +222,7 @@ export function Inicio() {
                         style={{
                           color: "hsl(120, 100%, 19.607843137254903%)",
                         }}
+                        onClick={loodingQuestion}
                       />
                     </td>
                     <td className="selectIcon">
