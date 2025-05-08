@@ -103,7 +103,7 @@ export function Login() {
 
   return (
     <Context>
-      {/* <img src={logoSigma} alt="Logo Tipo" /> */}
+      <img src={logoSigma} alt="Logo Tipo" />
       <Summary>
         <User size={90} />
         <h1>Adgang</h1>

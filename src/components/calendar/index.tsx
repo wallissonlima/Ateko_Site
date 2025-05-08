@@ -37,7 +37,7 @@ const CalendarPage = () => {
 
   return (
     <div style={{ height: "80vh", padding: "20px" }}>
-      <h2>Calendário Mensal</h2>
+      <h2 style={{ fontWeight: "bord" }}>Agenda Mensal</h2>
       <Calendar
         localizer={localizer}
         events={eventos}
