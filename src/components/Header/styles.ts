@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const Context = styled.nav`
   width: 100%;
   padding-right: 0.5rem;
-  background-color: ${(props) => props.theme['green-300']};
+  background-color: ${(props) => props.theme['blue-300']};
 
   img {
     width: 7rem;
@@ -66,23 +66,23 @@ export const CustomDropdownItem = styled(DropdownItem)`
   }
 
   &:hover {
-    background-color: ${(props) => props.theme['green-400']}; /* Cor ao passar o mouse */
+    background-color: ${(props) => props.theme['blue-400']}; /* Cor ao passar o mouse */
   }
 `;
 
 export const CustomModalHeader = styled(ModalHeader)`
-  background: ${(props) => props.theme['green-400']};
+  background: ${(props) => props.theme['blue-400']};
 `;
 
 export const NewButton = styled(Button)`
-  background: ${(props) => props.theme['green-300']};
+  background: ${(props) => props.theme['blue-300']};
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
   &:not(:disabled):hover {
-    background: ${(props) => props.theme['green-400']};
+    background: ${(props) => props.theme['blue-400']};
     transition: background-color 0.2s;
   }
 `;

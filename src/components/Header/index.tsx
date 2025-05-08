@@ -41,14 +41,6 @@ export function Header() {
               </NavItem>
               <NavItem>
                 <NavLink
-                  href="inicio"
-                  className={location.pathname === "/teste" ? "active" : ""}
-                >
-                  Agendamentos
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
                   href="#/videoseducacional"
                   className={
                     location.pathname === "/videoseducacional" ? "active" : ""
@@ -57,11 +49,23 @@ export function Header() {
                   Video Educacional
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink
+                  href="#/agendamento"
+                  className={
+                    location.pathname === "/agendamento" ? "active" : ""
+                  }
+                >
+                  Agendamentos
+                </NavLink>
+              </NavItem>
             </Nav>
             <div className="DropAdmin">
               <NavLink
-                href="inicio"
-                className={location.pathname === "/teste" ? "active" : ""}
+                href="https://ateko.no/"
+                className={
+                  location.pathname === "https://ateko.no/" ? "active" : ""
+                }
               >
                 Sobre nós
               </NavLink>
