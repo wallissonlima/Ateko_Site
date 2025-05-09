@@ -1,47 +1,75 @@
-import styled from 'styled-components';
-import logo from '../../assets/teste.jpg';
+import styled from "styled-components";
+import logo from "../../assets/teste.jpg";
 // import * as Dialog from '@radix-ui/react-dialog';
 
 export const Context = styled.div`
-  height: 100vh; /* Garante altura igual à da viewport */
-  width: 100%; /* Garante que ocupa toda a largura */
-  position: relative;
-  background-image: url(${logo});
-  background-repeat: no-repeat;
-  background-size: cover;
+  width: 100%;
+  min-height: 100vh;
+  padding: 5px;
+  background: ${(props) => props.theme["gray-100"]};
+  display: flex;
+  flex-direction: column;
 
   img {
-    width: 8rem;
-    /* padding-inline-start: 1rem; */
+    width: 15rem;
     padding: 0.5rem;
+
+    @media (max-width: 768px) {
+      width: 10rem;
+    }
+
+    @media (max-width: 480px) {
+      width: 8rem;
+    }
   }
+
+  .logKings {
+    width: 6rem;
+
+    @media (max-width: 768px) {
+      width: 4rem;
+    }
+  }
+
   .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: small;
-    margin-top: 2rem;
-    color: ${(props) => props.theme['green-500']};
-    position: absolute; /* Garante que fique no rodapé */
-    bottom: 10px;
-    right: 10px; /* Alinha ao canto inferior direito */
+    color: ${(props) => props.theme["green-500"]};
+    margin-top: auto; /* empurra o footer para o final */
+    padding: 10px;
+
+    /* Faz o footer ser responsivo */
+    flex-wrap: wrap;
+    gap: 10px;
+    text-align: center;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
   }
 `;
+
 
 export const Summary = styled.summary`
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  padding: 1px 0;
-  margin-top: 13px;
-
-  color: rgb(44, 46, 17, 0.5);
+  padding: 2% 0;
+  margin-top: 1px;
 `;
 
 export const FromCotainer = styled.div`
   display: flex;
   justify-content: center;
-  max-width: 22rem;
+  align-items: center;
+  flex-direction: column;
+  max-width: 25rem;
+  height: 22rem;
   margin: 0 auto;
-  background-color: rgb(44, 46, 17, 0.5);
+  background-color: rgb(44, 46, 17, 0.2);
 
   border-radius: 10px;
   padding: 1rem;
@@ -55,12 +83,13 @@ export const FromCotainer = styled.div`
   input {
     box-sizing: border-box; /* Inclui padding e border nas dimensões totais */
     width: 280px; /* Definindo uma largura específica */
+    height: 25px;
     padding: 1rem; /* Mantendo o padding */
     margin: 5px auto; /* Espaçamento entre os campos */
     font-weight: bold;
     border: 1px solid rgba(255, 255, 255, 0.5); /* Borda quase transparente */
     background-color: rgba(255, 255, 255, 0.5); /* Fundo quase transparente */
-    color: ${(props) => props.theme['green-500']}; /* Cor do texto */
+    color: ${(props) => props.theme["green-500"]}; /* Cor do texto */
     border-radius: 20px; /* Arredondamento das bordas */
     outline: none;
     text-align: center;
@@ -75,7 +104,7 @@ export const FromCotainer = styled.div`
     padding: 12px;
     margin-top: -2px;
     font-size: 1.2em;
-    background: ${(props) => props.theme['green-300']};
+    background: ${(props) => props.theme["green-300"]};
     color: ${(props) => props.theme.white};
     font-weight: bold;
     border: none;
@@ -87,7 +116,7 @@ export const FromCotainer = styled.div`
       cursor: not-allowed;
     }
     &:not(:disabled):hover {
-      background: ${(props) => props.theme['green-400']};
+      background: ${(props) => props.theme["green-400"]};
       transition: background-color 0.2s;
     }
   }
@@ -120,12 +149,16 @@ export const CustonCheck = styled.div`
     height: 1.5rem; /* Tamanho igual à largura para manter a proporção */
     padding: 0; /* Remove o padding, pois não é necessário */
     border-radius: 0.25rem; /* Deixa os cantos arredondados */
-    border: 2px solid ${(props) => props.theme['green-300']}; /* Borda de cor azul */
-    transition: background-color 0.3s, border-color 0.3s;
+    border: 2px solid ${(props) => props.theme["green-300"]}; /* Borda de cor azul */
+    transition:
+      background-color 0.3s,
+      border-color 0.3s;
   }
   .inputCheck:checked {
-    background-color: ${(props) => props.theme['green-400']}; /* Cor de fundo quando marcado */
-    border-color: ${(props) => props.theme['green-500']}; //Cor de borda quando marcado
+    background-color: ${(props) =>
+      props.theme["green-400"]}; /* Cor de fundo quando marcado */
+    border-color: ${(props) =>
+      props.theme["green-500"]}; //Cor de borda quando marcado
   }
 `;
 

@@ -6,7 +6,8 @@ import {
   FromCotainer,
   Summary,
 } from "./styles";
-import logoSigma from "../../assets/AtekoLogo.png";
+import logoKings from "../../assets/logoEmpresateste.png";
+import logoAteko from "../../assets/AtekoLogo.png";
 import { Eye, EyeSlash, User } from "phosphor-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -103,12 +104,12 @@ export function Login() {
 
   return (
     <Context>
-      <img src={logoSigma} alt="Logo Tipo" />
       <Summary>
-        <User size={90} />
-        <h1>Adgang</h1>
+        {/* <User size={90} /> */}
+        {/* <h1>Adgang</h1> */}
       </Summary>
       <FromCotainer>
+        <img src={logoAteko} alt="Logo Tipo" />
         <form onSubmit={_logIn}>
           <input
             className="input"
@@ -128,7 +129,7 @@ export function Login() {
           <div style={{ position: "relative", width: "300px" }}>
             <input
               className="input"
-              type={showPassword ? "text" : "passord"}
+              type={showPassword ? "text" : "password"}
               id="passord"
               placeholder="Senha"
               required
@@ -177,12 +178,18 @@ export function Login() {
           </CustomButton>
         </form>
       </FromCotainer>
+
       <div className="footer">
-        <footer>
-          {" "}
-          Painel do app &copy; Ateko - The Green Line -{" "}
-          {new Date().getUTCFullYear()}
-        </footer>
+        <div>
+          <img className="logKings" src={logoKings} alt="Logo Tipo" />
+        </div>
+        <div>
+          <footer>
+            {" "}
+            Painel do app &copy; Ateko - The Green Line -{" "}
+            {new Date().getUTCFullYear()}
+          </footer>
+        </div>
       </div>
     </Context>
   );
