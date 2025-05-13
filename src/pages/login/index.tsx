@@ -18,15 +18,15 @@ import { Input, Label } from "reactstrap";
 import React from "react";
 
 interface iUser {
-  bruker: string;
-  passord: string;
+  userName: string;
+  password: string;
 }
 export function Login() {
   const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
   const [user, setUser] = useState<iUser>({
-    bruker: "",
-    passord: "",
+    userName: "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -34,11 +34,11 @@ export function Login() {
   // Inicia os dados do formulário com o e-mail e senha armazenados, se existirem
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
-    const storedPassword = localStorage.getItem("passord");
+    const storedPassword = localStorage.getItem("password");
     const storedRememberMe = localStorage.getItem("rememberMe") === "true";
 
     if (storedRememberMe) {
-      setUser({ bruker: storedEmail || "", passord: storedPassword || "" });
+      setUser({ userName: storedEmail || "", password: storedPassword || "" });
       setRememberMe(true);
     }
   }, []);
@@ -60,7 +60,7 @@ export function Login() {
         toast.success("Login realizado com sucesso!", { autoClose: 1000 });
 
         // Limpar os campos após o login
-        setUser({ bruker: "", passord: "" });
+        setUser({ userName: "", password: "" });
         setRememberMe(false); // Opcional: resetar a opção de "lembrar-me"
 
         navigate("/inicio", { replace: true });
@@ -85,12 +85,12 @@ export function Login() {
   // Atualizar a opção de "Lembrar-me"
   const handleRememberLogin = () => {
     if (rememberMe) {
-      localStorage.setItem("email", user.bruker);
-      localStorage.setItem("passord", user.passord);
+      localStorage.setItem("email", user.userName);
+      localStorage.setItem("password", user.password);
       localStorage.setItem("rememberMe", "true");
     } else {
       localStorage.removeItem("email");
-      localStorage.removeItem("passord");
+      localStorage.removeItem("password");
       localStorage.removeItem("rememberMe");
     }
   };
@@ -101,7 +101,6 @@ export function Login() {
       navigate("/", { replace: true });
     }
   }, [token]);
-
   return (
     <Context>
       <Summary>
@@ -117,11 +116,11 @@ export function Login() {
             id="email"
             placeholder="Email"
             required
-            value={user.bruker}
+            value={user.userName}
             onChange={(e: any) =>
               setUser((prevState: any) => ({
                 ...prevState,
-                bruker: e.target.value.toUpperCase(),
+                userName: e.target.value.toUpperCase(),
               }))
             }
             style={{ display: "flex", justifyContent: "center" }}
@@ -130,14 +129,14 @@ export function Login() {
             <input
               className="input"
               type={showPassword ? "text" : "password"}
-              id="passord"
+              id="password"
               placeholder="Senha"
               required
-              value={user.passord}
+              value={user.password}
               onChange={(e: any) =>
                 setUser((prevState: any) => ({
                   ...prevState,
-                  passord: e.target.value,
+                  password: e.target.value,
                 }))
               }
               style={{ display: "flex", justifyContent: "center" }}
