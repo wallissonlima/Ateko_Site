@@ -26,7 +26,7 @@ export function Header() {
       <Context>
         <Navbar>
           <NavbarBrand href="/inicio">
-            {/* <img src={logoSigma} alt="Logo Tipo" /> */}
+            <img src={logoSigma} alt="Logo Tipo" />
           </NavbarBrand>
 
           <Collapse navbar>
@@ -61,6 +61,14 @@ export function Header() {
               </NavItem>
             </Nav>
             <div className="DropAdmin">
+              <NavLink
+                href="#/noticias"
+                className={
+                  location.pathname === "/noticias" ? "active" : ""
+                }
+              >
+                Notícias
+              </NavLink>
               <NavLink
                 href="https://ateko.no/"
                 className={

@@ -5,6 +5,7 @@ import { Inicio } from "./src/pages/Home/inicio";
 import { ProtectedRoute } from "./src/config/protectedRoute";
 import { VideosEducacional } from "./src/pages/Home/videos_educacional";
 import { Agendamento } from "./src/pages/Home/agendamento";
+import { Noticias } from "./src/pages/home/noticias/indesx";
 
 export function Router() {
   return (
@@ -48,6 +49,14 @@ export function Router() {
             element={
               <ProtectedRoute>
                 <Agendamento />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/noticias"
+            element={
+              <ProtectedRoute>
+                <Noticias/>
               </ProtectedRoute>
             }
           />
