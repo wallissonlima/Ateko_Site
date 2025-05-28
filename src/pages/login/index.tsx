@@ -18,15 +18,15 @@ import { Input, Label } from "reactstrap";
 import React from "react";
 
 interface iUser {
-  userName: string;
-  password: string;
+  bruker: string;
+  passord: string;
 }
 export function Login() {
   const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
   const [user, setUser] = useState<iUser>({
-    userName: "",
-    password: "",
+    bruker: "",
+    passord: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -38,7 +38,7 @@ export function Login() {
     const storedRememberMe = localStorage.getItem("rememberMe") === "true";
 
     if (storedRememberMe) {
-      setUser({ userName: storedEmail || "", password: storedPassword || "" });
+      setUser({ bruker: storedEmail || "", passord: storedPassword || "" });
       setRememberMe(true);
     }
   }, []);
@@ -48,7 +48,7 @@ export function Login() {
   const _logIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // console.log(user);
+    console.log(user);
     try {
       const login = await ax.post("/Account/Adgang", user, {
         headers: uri_header,
@@ -60,7 +60,7 @@ export function Login() {
         toast.success("Login realizado com sucesso!", { autoClose: 1000 });
 
         // Limpar os campos após o login
-        setUser({ userName: "", password: "" });
+        setUser({ bruker: "", passord: "" });
         setRememberMe(false); // Opcional: resetar a opção de "lembrar-me"
 
         navigate("/inicio", { replace: true });
@@ -85,8 +85,8 @@ export function Login() {
   // Atualizar a opção de "Lembrar-me"
   const handleRememberLogin = () => {
     if (rememberMe) {
-      localStorage.setItem("email", user.userName);
-      localStorage.setItem("password", user.password);
+      localStorage.setItem("email", user.bruker);
+      localStorage.setItem("password", user.passord);
       localStorage.setItem("rememberMe", "true");
     } else {
       localStorage.removeItem("email");
@@ -116,7 +116,7 @@ export function Login() {
             id="email"
             placeholder="Email"
             required
-            value={user.userName}
+            value={user.bruker}
             onChange={(e: any) =>
               setUser((prevState: any) => ({
                 ...prevState,
@@ -132,7 +132,7 @@ export function Login() {
               id="password"
               placeholder="Senha"
               required
-              value={user.password}
+              value={user.passord}
               onChange={(e: any) =>
                 setUser((prevState: any) => ({
                   ...prevState,

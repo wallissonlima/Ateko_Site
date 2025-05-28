@@ -61,14 +61,14 @@ export function Header() {
               </NavItem>
             </Nav>
             <div className="DropAdmin">
-              <NavLink
+              {/* <NavLink
                 href="#/noticias"
                 className={
                   location.pathname === "/noticias" ? "active" : ""
                 }
               >
                 Notícias
-              </NavLink>
+              </NavLink> */}
               <NavLink
                 href="https://ateko.no/"
                 className={
