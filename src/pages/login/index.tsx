@@ -1,20 +1,26 @@
 import {
+  CloseButton,
+  Content,
   Context,
+  CunstomButtonSenha,
   CustomButton,
   CustomSenha,
   CustonCheck,
   FromCotainer,
+  Overlay,
   Summary,
+  Title,
 } from "./styles";
 import logoKings from "../../assets/logoEmpresateste.png";
 import logoAteko from "../../assets/AtekoLogo.png";
-import { Eye, EyeSlash, User } from "phosphor-react";
+import { Dialog } from "radix-ui";
+import { Eye, EyeSlash, User, X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import uri_header from "../../config/uri_header.json";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Input, Label } from "reactstrap";
+import { Button, Input, Label } from "reactstrap";
 import React from "react";
 
 interface iUser {
@@ -102,94 +108,116 @@ export function Login() {
     }
   }, [token]);
   return (
-    <Context>
-      <Summary>
-        {/* <User size={90} /> */}
-        {/* <h1>Adgang</h1> */}
-      </Summary>
-      <FromCotainer>
-        <img src={logoAteko} alt="Logo Tipo" />
-        <form onSubmit={_logIn}>
-          <input
-            className="input"
-            type="text"
-            id="email"
-            placeholder="Email"
-            required
-            value={user.bruker}
-            onChange={(e: any) =>
-              setUser((prevState: any) => ({
-                ...prevState,
-                userName: e.target.value.toUpperCase(),
-              }))
-            }
-            style={{ display: "flex", justifyContent: "center" }}
-          />
-          <div style={{ position: "relative", width: "300px" }}>
+    <>
+      <Context>
+        <Summary>
+          {/* <User size={90} /> */}
+          {/* <h1>Adgang</h1> */}
+        </Summary>
+        <FromCotainer>
+          {/* <img src={logoAteko} alt="Logo Tipo" /> */}
+          <form onSubmit={_logIn}>
             <input
               className="input"
-              type={showPassword ? "text" : "password"}
-              id="password"
-              placeholder="Senha"
+              type="text"
+              id="email"
+              placeholder="Email"
               required
-              value={user.passord}
+              value={user.bruker}
               onChange={(e: any) =>
                 setUser((prevState: any) => ({
                   ...prevState,
-                  password: e.target.value,
+                  userName: e.target.value.toUpperCase(),
                 }))
               }
               style={{ display: "flex", justifyContent: "center" }}
             />
-            <span
-              onClick={togglePasswordVisibility}
-              style={{
-                position: "absolute",
-                right: "30px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                cursor: "pointer",
-              }}
-            >
-              {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
-            </span>
-          </div>
-          <CustomSenha>
-            <CustonCheck>
-              <Label className="form-check-label">Minn meg på det</Label>
-              <Input
-                className="inputCheck"
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
+            <div style={{ position: "relative", width: "300px" }}>
+              <input
+                className="input"
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="Senha"
+                required
+                value={user.passord}
+                onChange={(e: any) =>
+                  setUser((prevState: any) => ({
+                    ...prevState,
+                    password: e.target.value,
+                  }))
+                }
+                style={{ display: "flex", justifyContent: "center" }}
               />
-            </CustonCheck>
+              <span
+                onClick={togglePasswordVisibility}
+                style={{
+                  position: "absolute",
+                  right: "30px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer",
+                }}
+              >
+                {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
+              </span>
+            </div>
+            <CustomSenha>
+              <CustonCheck>
+                <Label className="form-check-label">Minn meg på det</Label>
+                <Input
+                  className="inputCheck"
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+              </CustonCheck>
 
-            {/* <a type="submit" style={{ color: "white" }}>
-            Glemt passordet ditt?
-            </a> */}
-          </CustomSenha>
+              {/* <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <CunstomButtonSenha>Glemt passordet ditt?</CunstomButtonSenha>
+                </Dialog.Trigger>
+                <Dialog.Portal>
+                  <Overlay>
+                    <Content>
+                      <Title>Nytt passord?</Title>
+                      <CloseButton>
+                        <X size={24} />
+                      </CloseButton>
+                      <form>
+                        <input placeholder="senha antiga" required />
+                        <input placeholder="nova senha" required />
+                        <input placeholder="confirma senha" required />
+                        <div className="Buttonregistro">
+                          <Button type="submit">Spare</Button>
+                        </div>
+                      </form>
+                    </Content>
+                  </Overlay>
+                </Dialog.Portal>
+              </Dialog.Root> */}
+            </CustomSenha>
 
-          <CustomButton>
-            <button type="submit" onClick={handleRememberLogin}>
-              Å gå inn
-            </button>
-          </CustomButton>
-        </form>
-      </FromCotainer>
+            <CustomButton>
+              <button type="submit" onClick={handleRememberLogin}>
+                Å gå inn
+              </button>
+            </CustomButton>
+          </form>
+        </FromCotainer>
 
-      <div className="footer">
-        <div>
-          <img className="logKings" src={logoKings} alt="Logo Tipo" />
+        <div className="footer">
+          <div>
+            <img className="logKings" src={logoKings} alt="Logo Tipo" />
+          </div>
+          <div>
+            <footer>
+              {" "}
+              Painel do app &copy; Ateko - The Green Line -{" "}
+              {new Date().getUTCFullYear()}
+            </footer>
+          </div>
         </div>
-        <div>
-          <footer>
-            {" "}
-            Painel do app &copy; Ateko - The Green Line -{" "}
-            {new Date().getUTCFullYear()}
-          </footer>
-        </div>
-      </div>
-    </Context>
+      </Context>
+    </>
   );
 }

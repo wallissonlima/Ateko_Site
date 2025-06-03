@@ -5,7 +5,7 @@ import { Inicio } from "./src/pages/Home/inicio";
 import { ProtectedRoute } from "./src/config/protectedRoute";
 import { VideosEducacional } from "./src/pages/Home/videos_educacional";
 import { Agendamento } from "./src/pages/Home/agendamento";
-import { Noticias } from "./src/pages/home/noticias/indesx";
+import { NovaSenha } from "./src/pages/Home/novaSenha";
 
 export function Router() {
   return (
@@ -53,10 +53,10 @@ export function Router() {
             }
           />
           <Route
-            path="/noticias"
+            path="/novasenha"
             element={
               <ProtectedRoute>
-                <Noticias/>
+                <NovaSenha />
               </ProtectedRoute>
             }
           />
