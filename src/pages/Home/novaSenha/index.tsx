@@ -1,18 +1,21 @@
-import { Input, Label } from "reactstrap";
+import { Button, Input, Label, Row } from "reactstrap";
 import { Context, CustomFormGrup } from "./styles";
 
 export const NovaSenha = () => {
   return (
     <>
       <Context>
-        <div>
+        <Row>
           <CustomFormGrup>
-            <Label>Senha:</Label>
+            <Label>Adgangskode:</Label>
             <Input required name="nome" type="text" maxLength={50} />
-            <Label>Repetir senha:</Label>
+            <Label>Gentag adgangskoden:</Label>
             <Input required name="nome" type="text" maxLength={50} />
+            <div>
+              <Button>at ændre</Button>
+            </div>
           </CustomFormGrup>
-        </div>
+        </Row>
       </Context>
     </>
   );
