@@ -6,6 +6,7 @@ import { ProtectedRoute } from "./src/config/protectedRoute";
 import { VideosEducacional } from "./src/pages/Home/videos_educacional";
 import { Agendamento } from "./src/pages/Home/agendamento";
 import { NovaSenha } from "./src/pages/Home/novaSenha";
+import { Confirmacao } from "./src/pages/Home/confirmacao";
 
 export function Router() {
   return (
@@ -57,6 +58,14 @@ export function Router() {
             element={
               <ProtectedRoute>
                 <NovaSenha />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/confirmacao"
+            element={
+              <ProtectedRoute>
+                <Confirmacao />
               </ProtectedRoute>
             }
           />
