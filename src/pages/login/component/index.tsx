@@ -1,27 +1,23 @@
 import {
-  CloseButton,
-  Content,
   Context,
-  CunstomButtonSenha,
   CustomButton,
   CustomSenha,
   CustonCheck,
   FromCotainer,
-  Overlay,
   Summary,
-  Title,
 } from "./styles";
-import logoKings from "../../assets/logoEmpresateste.png";
-import logoAteko from "../../assets/AtekoLogo.png";
-import { Dialog } from "radix-ui";
-import { Eye, EyeSlash, User, X } from "phosphor-react";
+import logoKings from "../../../assets/logoEmpresateste.png";
+import { Eye, EyeSlash } from "phosphor-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import uri_header from "../../config/uri_header.json";
+import uri_header from "../../../config/uri_header.json";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Input, Label } from "reactstrap";
+import { Input, Label } from "reactstrap";
 import React from "react";
+
+// @ts-nocheck
+import auth from "../../../util/authentication";
 
 interface iUser {
   bruker: string;
@@ -53,23 +49,20 @@ export function Login() {
   const ax = axios.create({ baseURL: import.meta.env.VITE_APP_BASEAPI_URL });
   const _logIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log(user);
     try {
       const login = await ax.post("/Account/Adgang", user, {
         headers: uri_header,
       });
 
       if (login.data) {
-        const token = login.data.token; // Verifique onde o token é retornado
-        localStorage.setItem("access_token", token); // Armazena o token no localStorage
-        toast.success("Login realizado com sucesso!", { autoClose: 1000 });
-
-        // Limpar os campos após o login
-        setUser({ bruker: "", passord: "" });
-        setRememberMe(false); // Opcional: resetar a opção de "lembrar-me"
-
-        navigate("/inicio", { replace: true });
+        const objeto = login.data.token; // Verifique onde o token é retornado
+        auth.Login(
+          objeto.token,
+          objeto.expiration,
+          objeto.brukertype,
+          objeto.idEnterprise,
+          objeto.brukertype
+        );
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -124,12 +117,13 @@ export function Login() {
               placeholder="Email"
               required
               value={user.bruker}
-              onChange={(e: any) =>
+              onChange={(e: any) => {
+                console.log(e.target.value);
                 setUser((prevState: any) => ({
                   ...prevState,
-                  userName: e.target.value.toUpperCase(),
-                }))
-              }
+                  bruker: e.target.value.toUpperCase(),
+                }));
+              }}
               style={{ display: "flex", justifyContent: "center" }}
             />
             <div style={{ position: "relative", width: "300px" }}>
@@ -140,12 +134,12 @@ export function Login() {
                 placeholder="Senha"
                 required
                 value={user.passord}
-                onChange={(e: any) =>
+                onChange={(e: any) => {
                   setUser((prevState: any) => ({
                     ...prevState,
-                    password: e.target.value,
-                  }))
-                }
+                    passord: e.target.value,
+                  }));
+                }}
                 style={{ display: "flex", justifyContent: "center" }}
               />
               <span

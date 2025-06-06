@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import logo from "../../assets/teste.jpg";
 import * as Dialog from "@radix-ui/react-dialog";
 
 export const Context = styled.div`

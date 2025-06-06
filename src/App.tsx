@@ -9,7 +9,6 @@ export function App() {
     <ThemeProvider theme={defaultTheme}>
       <Router />
       <ToastContainer />
-
       <GlobalStyle />
     </ThemeProvider>
   );

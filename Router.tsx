@@ -1,8 +1,10 @@
+// @ts-nocheck
+import NavLogin from "./src/pages/login";
+import ProtectedRoute from "./src/config/protectedRoute";
+
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Login } from "./src/pages/login";
 import { Inicio } from "./src/pages/Home/inicio";
-import { ProtectedRoute } from "./src/config/protectedRoute";
 import { VideosEducacional } from "./src/pages/Home/videos_educacional";
 import { Agendamento } from "./src/pages/Home/agendamento";
 import { NovaSenha } from "./src/pages/Home/novaSenha";
@@ -28,46 +30,21 @@ export function Router() {
       />
       <HashRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<NavLogin />} />
+          <Route path="/novasenha/:token" element={<NovaSenha />} />
+          <Route path="/confirmacao/:token" element={<Confirmacao />} />
+
           <Route
             path="/inicio"
-            element={
-              <ProtectedRoute>
-                <Inicio />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute component={Inicio} />}
           />
           <Route
             path="/videoseducacional"
-            element={
-              <ProtectedRoute>
-                <VideosEducacional />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute component={VideosEducacional} />}
           />
           <Route
             path="/agendamento"
-            element={
-              <ProtectedRoute>
-                <Agendamento />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/novasenha"
-            element={
-              <ProtectedRoute>
-                <NovaSenha />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/confirmacao"
-            element={
-              <ProtectedRoute>
-                <Confirmacao />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRoute component={Agendamento} />}
           />
         </Routes>
       </HashRouter>
