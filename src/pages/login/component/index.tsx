@@ -55,7 +55,7 @@ export function Login() {
       });
 
       if (login.data) {
-        const objeto = login.data.token; // Verifique onde o token é retornado
+        const objeto = login.data; // Verifique onde o token é retornado
         auth.Login(
           objeto.token,
           objeto.expiration,

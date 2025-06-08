@@ -48,6 +48,7 @@ export const NovaSenha = () => {
     token: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isAlterPassord, setIsAlterPassord] = useState<boolean>(false);
 
   // Handle input changes
   const atualizacao_do_input = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +56,6 @@ export const NovaSenha = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    // Clear error for the field being edited
     setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
   };
 
@@ -66,14 +66,18 @@ export const NovaSenha = () => {
       AtualizacaoSchema.parse(atualizar);
       setErrors({});
 
-      /// Aqui será gerado uma cópia do objeto atualizar, removenddo o campo confirm, incluindo o token da URL.
       const { confirm, ...formulario } = atualizar;
       if (token) {
         formulario.token = token;
       }
 
-      /// Aqui será encaminha para API os dados para atualização dos dados informados no formulario.
       const resp = await ax.put("/Account/OppdateringAvPassord", formulario);
+
+      if (resp.data === "Passordet ble oppdatert med suksess.") {
+        setIsAlterPassord(true);
+      } else {
+        alert("En feil oppstod: " + resp.data); // Em norueguês
+      }
 
       console.log(resp);
     } catch (error) {
@@ -90,81 +94,101 @@ export const NovaSenha = () => {
 
   return (
     <Context>
-      <Row>
-        <CustomFormGrup>
-          <form onSubmit={handleSubmit}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "end",
-                padding: "2%",
-                flexDirection: "column",
-              }}
-            >
-              <Label>Epost :</Label>
-              <Input
-                required
-                name="epost"
-                type="email"
-                maxLength={100}
-                onChange={atualizacao_do_input}
-                value={atualizar.epost}
-              />
-              {errors.epost && (
-                <span style={{ color: "red" }}>{errors.epost}</span>
-              )}
-            </div>
+      {!isAlterPassord ? (
+        <Row>
+          <CustomFormGrup>
+            <form onSubmit={handleSubmit}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  padding: "2%",
+                  flexDirection: "column",
+                }}
+              >
+                <Label>Epost :</Label>
+                <Input
+                  required
+                  name="epost"
+                  type="email"
+                  maxLength={100}
+                  onChange={atualizacao_do_input}
+                  value={atualizar.epost}
+                />
+                {errors.epost && (
+                  <span style={{ color: "red" }}>{errors.epost}</span>
+                )}
+              </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "end",
-                padding: "2%",
-                flexDirection: "column",
-              }}
-            >
-              <Label>Adgangskode :</Label>
-              <Input
-                required
-                name="passord"
-                type="password"
-                maxLength={100}
-                onChange={atualizacao_do_input}
-                value={atualizar.passord}
-              />
-              {errors.passord && (
-                <span style={{ color: "red" }}>{errors.passord}</span>
-              )}
-            </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  padding: "2%",
+                  flexDirection: "column",
+                }}
+              >
+                <Label>Adgangskode :</Label>
+                <Input
+                  required
+                  name="passord"
+                  type="password"
+                  maxLength={100}
+                  onChange={atualizacao_do_input}
+                  value={atualizar.passord}
+                />
+                {errors.passord && (
+                  <span style={{ color: "red" }}>{errors.passord}</span>
+                )}
+              </div>
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "end",
-                padding: "2%",
-                flexDirection: "column",
-              }}
-            >
-              <Label>Gentag adgangskoden :</Label>
-              <Input
-                required
-                name="confirm"
-                type="password"
-                maxLength={100}
-                onChange={atualizacao_do_input}
-                value={atualizar.confirm}
-              />
-              {errors.confirm && (
-                <span style={{ color: "red" }}>{errors.confirm}</span>
-              )}
-            </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  padding: "2%",
+                  flexDirection: "column",
+                }}
+              >
+                <Label>Gentag adgangskoden :</Label>
+                <Input
+                  required
+                  name="confirm"
+                  type="password"
+                  maxLength={100}
+                  onChange={atualizacao_do_input}
+                  value={atualizar.confirm}
+                />
+                {errors.confirm && (
+                  <span style={{ color: "red" }}>{errors.confirm}</span>
+                )}
+              </div>
 
-            <div>
-              <Button type="submit">at ændre</Button>
-            </div>
-          </form>
-        </CustomFormGrup>
-      </Row>
+              <div>
+                <Button type="submit">Endre</Button>
+              </div>
+            </form>
+          </CustomFormGrup>
+        </Row>
+      ) : (
+        <Row>
+          <div
+            style={{
+              backgroundColor: "#d4edda",
+              color: "#155724",
+              border: "1px solid #c3e6cb",
+              borderRadius: "5px",
+              padding: "20px",
+              marginTop: "30px",
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            <h4>✔️ Passordet ble endret med suksess!</h4>
+            <p>Du kan nå logge inn med ditt nye passord.</p>
+          </div>
+        </Row>
+      )}
     </Context>
   );
 };

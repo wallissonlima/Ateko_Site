@@ -49,16 +49,6 @@ export function Header() {
                   Video Educacional
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink
-                  href="#/agendamento"
-                  className={
-                    location.pathname === "/agendamento" ? "active" : ""
-                  }
-                >
-                  Agendamentos
-                </NavLink>
-              </NavItem>
             </Nav>
             <div className="DropAdmin">
               {/* <NavLink
@@ -69,14 +59,6 @@ export function Header() {
               >
                 Notícias
               </NavLink> */}
-              <NavLink
-                href="https://ateko.no/"
-                className={
-                  location.pathname === "https://ateko.no/" ? "active" : ""
-                }
-              >
-                Sobre nós
-              </NavLink>
               <SignOut onClick={handleLogout} size={25} />
             </div>
           </Collapse>
