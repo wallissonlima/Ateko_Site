@@ -11,14 +11,14 @@ export const Context = styled.div`
 `;
 
 export const NewButton = styled(Button)`
-  background: ${(props) => props.theme["blue-300"]};
+  background: ${(props) => props.theme["green-300"]};
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
   &:not(:disabled):hover {
-    background: ${(props) => props.theme["blue-400"]};
+    background: ${(props) => props.theme["green-400"]};
     transition: background-color 0.2s;
   }
 `;
@@ -40,7 +40,7 @@ export const TransactionTable = styled.table`
     position: sticky;
     top: 0;
     z-index: 10;
-    background-color: ${(props) => props.theme["blue-400"]};
+    background-color: ${(props) => props.theme["green-400"]};
     padding: 1rem;
     min-width: 5rem;
     text-align: left;
@@ -117,7 +117,7 @@ export const TableRow = styled.tr`
 `;
 
 export const CustomModalHeader = styled(ModalHeader)`
-  background: ${(props) => props.theme["blue-400"]};
+  background: ${(props) => props.theme["green-400"]};
 `;
 
 export const ButtonClose = styled(Button)`
