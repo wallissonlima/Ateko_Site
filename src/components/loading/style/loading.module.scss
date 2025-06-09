@@ -1,0 +1,55 @@
+.visible-img {
+  opacity: 0;
+  animation: fade_in_img 1s forwards;
+}
+
+@keyframes fade_in_img {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in:hover {
+  opacity: 1;
+}
+
+.cst-header {
+  position: relative;
+  text-align: center;
+  background: -webkit-linear-gradient(top, #46db87 20%, #00d5ff 100%);
+  color: white;
+}
+
+.cst-inner-header {
+  height: 40vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.cst-flex {
+  /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.cst-waves {
+  position: relative;
+  width: 100%;
+  height: 15vh;
+  margin-bottom: -7px; /*Fix for safari gap*/
+  min-height: 100px;
+  max-height: 150px;
+}
+
+.cst-content {
+  position: relative;
+  height: 20vh;
+  text-align: center;
+  background-color: white;
+}

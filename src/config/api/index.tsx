@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import auth from "../../util/authentication";
+
 const api = axios.create({ baseURL: import.meta.env.VITE_APP_BASEAPI_URL });
 
 api.interceptors.request.use(async (config: any) => {
@@ -10,7 +12,7 @@ api.interceptors.request.use(async (config: any) => {
     //window.location.href = '/login';
     // ou tratando o erro de alguma outra forma apropriada para o seu caso
   } else {
-    window.location.href = "/#/login";
+    auth.LogOut();
     throw new Error("Token de autenticação não encontrado");
   }
   return config;
@@ -27,6 +29,6 @@ api.interceptors.response.use(
   },
   (error: any) => {
     return Promise.reject(error);
-  },
+  }
 );
 export default api;

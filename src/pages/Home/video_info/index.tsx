@@ -29,7 +29,7 @@ type Props = {
   videos: Video[]; // ou qualquer que seja o tipo dos vídeos
 };
 
-export const VideosEducacional: React.FC = () => {
+export const VideoInfo: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [progressModalOpen, setProgressModalOpen] = useState(false);

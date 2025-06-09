@@ -8,6 +8,12 @@ interface VideoInfo {
   descricao: string;
 }
 
+interface Video {
+  akademild: string;
+  nome?: string;
+  descricao?: string;
+}
+
 export const VideoGrid: React.FC = () => {
   const [videos, setVideos] = useState<string[]>([]); // Array de strings (nomes dos arquivos)
   const [videoInfo, setVideoInfo] = useState<VideoInfo[]>([]); // Dados completos dos vídeos
@@ -32,8 +38,8 @@ export const VideoGrid: React.FC = () => {
       );
   }, []);
 
-  const cleanFileName = (name?: string) =>
-    typeof name === "string" ? name.replace(".mp4", "") : "";
+ const cleanFileName = (name?: string) =>
+  typeof name === "string" ? name.replace(".mp4", "") : "";
 
   const mergedVideos = videos.map((videoFileName) => {
     const cleanName = cleanFileName(videoFileName);
