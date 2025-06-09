@@ -9,6 +9,7 @@ import { VideosEducacional } from "./src/pages/Home/videos_educacional";
 import { Agendamento } from "./src/pages/Home/agendamento";
 import { NovaSenha } from "./src/pages/Home/novaSenha";
 import { Confirmacao } from "./src/pages/Home/confirmacao";
+import { VideoInfo, VideosInfo } from "./src/pages/Home/video_info";
 
 export function Router() {
   return (
@@ -41,6 +42,10 @@ export function Router() {
           <Route
             path="/videoseducacional"
             element={<ProtectedRoute component={VideosEducacional} />}
+          />
+          <Route
+            path="/videoinfo"
+            element={<ProtectedRoute component={VideoInfo} />}
           />
           <Route
             path="/agendamento"

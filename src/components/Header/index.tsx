@@ -49,6 +49,14 @@ export function Header() {
                   Video Educacional
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink
+                  href="#/videoinfo"
+                  className={location.pathname === "/videoinfo" ? "active" : ""}
+                >
+                  Video info
+                </NavLink>
+              </NavItem>
             </Nav>
             <div className="DropAdmin">
               {/* <NavLink
