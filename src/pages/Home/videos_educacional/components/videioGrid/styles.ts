@@ -20,4 +20,24 @@ export const Grid = styled.div`
     flex: 1 1 300px; // mínimo de 300px, cresce conforme o espaço
     max-width: 100%;
   }
+
+  h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.7rem;
+    margin: 0.5rem 0;
+  }
+  p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .selectIcon svg {
+    transition: transform 0.2s ease;
+  }
+
+  .selectIcon svg:active {
+    transform: scale(1.2);
+  }
 `;

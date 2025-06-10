@@ -11,7 +11,7 @@ import {
   Input,
   Progress,
 } from "reactstrap";
-import { ButtonClose, Context, NewButton } from "./styles";
+import { ButtonClose, Context, CustomModalHeader, NewButton } from "./styles";
 import { Header } from "../../../components/Header";
 import { useState } from "react";
 import { VideoGrid } from "./components/videioGrid";
@@ -196,11 +196,17 @@ export const VideosEducacional: React.FC = () => {
 
       {/* Modal de Formulário */}
       <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Adicionar Novo Vídeo</ModalHeader>
+        <CustomModalHeader toggle={toggleModal}>
+          <h2 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
+            Adicionar Novo Vídeo
+          </h2>
+        </CustomModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="titulo">Título</Label>
+              <Label style={{ fontWeight: "bold" }} for="titulo">
+                Título
+              </Label>
               <Input
                 id="titulo"
                 value={titulo}
@@ -209,7 +215,9 @@ export const VideosEducacional: React.FC = () => {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="descricao">Descrição</Label>
+              <Label style={{ fontWeight: "bold" }} for="descricao">
+                Descrição
+              </Label>
               <Input
                 id="descricao"
                 type="textarea"
@@ -219,7 +227,9 @@ export const VideosEducacional: React.FC = () => {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="sequencia">Sequência</Label>
+              <Label style={{ fontWeight: "bold" }} for="sequencia">
+                Sequência
+              </Label>
               <Input
                 id="sequencia"
                 type="number"
@@ -230,7 +240,9 @@ export const VideosEducacional: React.FC = () => {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="video">Selecionar Vídeo</Label>
+              <Label style={{ fontWeight: "bold" }} for="video">
+                Selecionar Vídeo
+              </Label>
               <Input
                 id="video"
                 type="file"
