@@ -187,7 +187,7 @@ export const VideoInfo: React.FC = () => {
       <Header />
       <Context>
         <Row>
-          <Col lg="6">
+          <Col lg="6" style={{ padding: "0px 0px 0px 40px" }}>
             <NewButton onClick={toggleModal}>Novo Vídeo</NewButton>
           </Col>
           <VideoGrid />

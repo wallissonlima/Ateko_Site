@@ -1,4 +1,3 @@
-import api from "../../../config/api";
 import axios from "axios";
 
 import { Button, Input, Label, Row } from "reactstrap";

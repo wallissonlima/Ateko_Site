@@ -19,7 +19,7 @@ export const CustomFormGrup = styled(FormGroup)`
   Input {
     border: 1px solid #000000;
     border-radius: 8px;
-    width: 27rem;
+    width: 20rem;
     height: 100%;
   }
   div {

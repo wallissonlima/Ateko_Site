@@ -3,8 +3,8 @@ import { Context, Grid } from "./styles";
 import api from "../../../../../config/api";
 
 interface VideoInfo {
-  akademild: string;
-  nome: string;
+  objID: string;
+  titulo: string;
   descricao: string;
 }
 
@@ -32,38 +32,41 @@ export const VideoGrid: React.FC = () => {
       );
   }, []);
 
-  const cleanFileName = (name?: string) =>
-    typeof name === "string" ? name.replace(".mp4", "") : "";
+  const cleanFileName = (titulo?: string) =>
+    typeof titulo === "string" ? titulo.replace(".mp4", "") : "";
 
   const mergedVideos = videos.map((videoFileName) => {
     const cleanName = cleanFileName(videoFileName);
-    const info = videoInfo.find(
-      (v) => cleanFileName(v.akademild) === cleanName
-    );
-    console.log("Procurando info para:", cleanName, "Encontrado:", info);
+    const info = videoInfo.find((v) => cleanFileName(v.objID) === cleanName);
     return {
       akademild: videoFileName,
-      nome: info?.nome ?? "Sem nome",
+      titulo: info?.titulo ?? "Sem nome",
       descricao: info?.descricao ?? "Sem descrição",
     };
   });
 
   if (videos.length === 0) return <p>Carregando vídeos...</p>;
+
   return (
     <Context>
       <Grid>
-        {mergedVideos.map(({ akademild, nome, descricao }, index) => {
+        {mergedVideos.map(({ akademild, titulo, descricao }, index) => {
           const videoId = akademild.replace(".mp4", "");
           const videoUrl = `https://atekoapi.kingssoftware.com.br/AtekoAkademi/GetVideoStreaming?AkademiId=${videoId}`;
 
           return (
             <div key={index} style={{ margin: "16px", width: "640px" }}>
-              <h3>{nome}</h3>
-              <p>{descricao}</p>
-              <video width="100%" height="360" controls>
+              <video
+                width="100%"
+                height="360"
+                controls
+                style={{ borderRadius: "15px" }}
+              >
                 <source src={videoUrl} type="video/mp4" />
                 Seu navegador não suporta o elemento de vídeo.
               </video>
+              <h3>{titulo}</h3>
+              <p>{descricao}</p>
             </div>
           );
         })}

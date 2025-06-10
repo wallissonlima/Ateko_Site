@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Context = styled.div`
   width: 100%;
-  min-height: 92vh;
+  min-height: 100%;
   overflow-y: none;
   padding: 1rem;
 
@@ -23,14 +23,14 @@ export const NewButton = styled(Button)`
   }
 `;
 export const ButtonClose = styled(Button)`
-  background: ${(props) => props.theme['red-400']};
+  background: ${(props) => props.theme["red-400"]};
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
   &:not(:disabled):hover {
-    background: ${(props) => props.theme['red-500']};
+    background: ${(props) => props.theme["red-500"]};
     transition: background-color 0.2s;
   }
 `;

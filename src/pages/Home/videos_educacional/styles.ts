@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Context = styled.div`
   width: 100%;
-  min-height: 92vh;
+  min-height: 100%;
   overflow-y: none;
   padding: 1rem;
 
