@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Input, Label } from "reactstrap";
 import React from "react";
+import logoAteko from "../../../assets/AtekoLogo.png";
 
 // @ts-nocheck
 import auth from "../../../util/authentication";
@@ -108,7 +109,7 @@ export function Login() {
           {/* <h1>Adgang</h1> */}
         </Summary>
         <FromCotainer>
-          {/* <img src={logoAteko} alt="Logo Tipo" /> */}
+          <img src={logoAteko} alt="Logo Tipo" />
           <form onSubmit={_logIn}>
             <input
               className="input"
