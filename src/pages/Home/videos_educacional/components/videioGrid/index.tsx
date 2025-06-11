@@ -6,6 +6,7 @@ import header from "../../../../../config/uri_header.json";
 import { toast } from "react-toastify";
 import {
   Col,
+  DropdownToggle,
   Form,
   FormGroup,
   Input,
@@ -14,8 +15,13 @@ import {
   ModalBody,
   ModalFooter,
   Row,
+  UncontrolledDropdown,
 } from "reactstrap";
 import { ButtonClose, CustomModalHeader, NewButton } from "../../styles";
+import {
+  CustomDropdownItem,
+  CustomDropdownMenu,
+} from "../../../../../components/Header/styles";
 
 interface VideoInfo {
   objID: string;
@@ -155,11 +161,23 @@ export const VideoGrid: React.FC = () => {
                     style={{ display: "flex", justifyContent: "flex-end" }}
                     className="selectIcon"
                   >
-                    <Gear
-                      onClick={() => toggleModal(video)} // <- agora funciona!
-                      size={30}
-                      style={{ color: "hsl(120, 100%, 19.607843137254903%)" }}
-                    />
+                    <UncontrolledDropdown>
+                      <DropdownToggle nav caret>
+                        <Gear
+                          size={30}
+                          style={{
+                            color: "hsl(120, 100%, 19.607843137254903%)",
+                          }}
+                        />
+                      </DropdownToggle>
+                      <CustomDropdownMenu>
+                        <CustomDropdownItem onClick={() => toggleModal(video)}>
+                          Editar
+                        </CustomDropdownItem>
+                        <CustomDropdownItem divider />
+                        <CustomDropdownItem>Deleta</CustomDropdownItem>
+                      </CustomDropdownMenu>
+                    </UncontrolledDropdown>
                   </Col>
                 </Row>
               </div>
