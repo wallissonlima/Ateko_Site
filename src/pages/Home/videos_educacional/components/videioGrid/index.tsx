@@ -129,6 +129,19 @@ export const VideoGrid: React.FC = () => {
     }
   };
 
+  // função para deletar o vídeo
+  const handleDelete = async (objID: string) => {
+    try {
+      const response = await api.delete(`/AtekoAkademi?objId=${objID}`);
+
+      return response.data.isValid ?? false;
+    } catch (error) {
+      console.error("Erro na requisição:", error, { autoClose: 1000 });
+      // toast.error("Erro ao deletar fazenda.", { autoClose: 1000 });
+      return false;
+    }
+  };
+
   return (
     <>
       <Context>
@@ -175,7 +188,11 @@ export const VideoGrid: React.FC = () => {
                           Editar
                         </CustomDropdownItem>
                         <CustomDropdownItem divider />
-                        <CustomDropdownItem>Deleta</CustomDropdownItem>
+                        <CustomDropdownItem
+                          onClick={() => handleDelete(video.objID)}
+                        >
+                          Deleta
+                        </CustomDropdownItem>
                       </CustomDropdownMenu>
                     </UncontrolledDropdown>
                   </Col>
