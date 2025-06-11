@@ -1,3 +1,4 @@
+import { ModalHeader } from "reactstrap";
 import styled from "styled-components";
 
 export const Context = styled.div`
@@ -20,4 +21,7 @@ export const Grid = styled.div`
     flex: 1 1 300px; // mínimo de 300px, cresce conforme o espaço
     max-width: 100%;
   }
+`;
+export const CustomModalHeader = styled(ModalHeader)`
+  background: ${(props) => props.theme.white};
 `;

@@ -134,7 +134,7 @@ export const VideoGrid: React.FC = () => {
             return (
               <div
                 key={index}
-                style={{ margin: "10px", width: "640px", marginTop: "-35px" }}
+                style={{ margin: "10px", width: "640px", marginTop: "-15px" }}
               >
                 <video
                   width="100%"

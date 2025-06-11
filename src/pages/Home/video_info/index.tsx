@@ -89,7 +89,7 @@ export const VideoInfo: React.FC = () => {
       };
 
       // Save video metadata and get objID
-      const up_date_for_video = await api.post(`/AtekoAkademi`, up_file, {
+      const up_date_for_video = await api.post(`/InfoVideos`, up_file, {
         headers: { "Content-Type": "application/json" },
       });
 
@@ -134,7 +134,7 @@ export const VideoInfo: React.FC = () => {
         };
 
         const response = await api.post(
-          `/AtekoAkademi/LeggTilMidlertidig`,
+          `/InfoVideos/LeggTilMidlertidig`,
           body,
           {
             headers: { "Content-Type": "application/json" },
@@ -152,7 +152,7 @@ export const VideoInfo: React.FC = () => {
       }
 
       const up_video_to_server = await api.post(
-        `/AtekoAkademi/LagreDiagnostikkvideo?IdAkademiVideo=${objID}`
+        `/InfoVideos/LagreDiagnostikkvideo?IdInfoVideo=${objID}`
       );
 
       console.log(up_video_to_server);
