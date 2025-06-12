@@ -25,9 +25,6 @@ interface Video {
   channel: string;
   videoUrl?: string;
 }
-type Props = {
-  videos: Video[]; // ou qualquer que seja o tipo dos vídeos
-};
 
 export const VideosEducacional: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -38,6 +35,7 @@ export const VideosEducacional: React.FC = () => {
   const [sequencia, setSequencia] = useState("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [gridKey, setGridKey] = useState(0); // State to force VideoGrid remount
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
@@ -128,7 +126,7 @@ export const VideosEducacional: React.FC = () => {
         // Corpo da requisição
         const body = {
           idPartition: uuidv4(),
-          idVideo: objID, // Use objID from metadata response
+          idVideo: objID,
           partition: i + 1,
           videoPartition: videoPartition,
         };
@@ -159,14 +157,17 @@ export const VideosEducacional: React.FC = () => {
 
       // Após enviar todas as partes, adiciona o vídeo à lista
       const novoVideo: Video = {
-        id: objID, // Use objID as the video ID
+        id: objID,
         thumbnail: "https://img.youtube.com/vi/exMe3ZRamoU/hqdefault.jpg",
         title: titulo,
         channel: descricao,
-        videoUrl: `/videos/${objID}`, // Use objID in the video URL
+        videoUrl: `/videos/${objID}`,
       };
 
       setVideos([...videos, novoVideo]);
+
+      // Force VideoGrid to remount and refetch data
+      setGridKey((prev) => prev + 1);
 
       // Limpa campos e fecha modais
       setTitulo("");
@@ -190,7 +191,9 @@ export const VideosEducacional: React.FC = () => {
           <Col lg="6" style={{ padding: "0px 0px 0px 40px" }}>
             <NewButton onClick={toggleModal}>Novo Vídeo</NewButton>
           </Col>
-          <VideoGrid />
+          <div key={gridKey}>
+            <VideoGrid />
+          </div>
         </Row>
       </Context>
 
@@ -246,7 +249,7 @@ export const VideosEducacional: React.FC = () => {
               <Input
                 id="video"
                 type="file"
-                accept="video/*"
+                accept="video/mp4"
                 onChange={handleFileChange}
               />
             </FormGroup>

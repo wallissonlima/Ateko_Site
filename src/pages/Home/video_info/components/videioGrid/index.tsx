@@ -3,7 +3,6 @@ import { Context, CustomModalHeader, Grid } from "./styles";
 import api from "../../../../../config/api";
 import { Gear } from "phosphor-react";
 import header from "../../../../../config/uri_header.json";
-import { toast } from "react-toastify";
 import {
   Col,
   DropdownToggle,
@@ -27,19 +26,21 @@ interface VideoInfo {
   objID: string;
   titulo: string;
   descricao: string;
-  sequencia?: string; // Sequência pode ser opcional
+  sequencia?: string;
 }
 
 export const VideoGrid: React.FC = () => {
-  const [videos, setVideos] = useState<string[]>([]); // Array de strings (nomes dos arquivos)
-  const [videoInfo, setVideoInfo] = useState<VideoInfo[]>([]); // Dados completos dos vídeos
+  const [videos, setVideos] = useState<string[]>([]);
+  const [videoInfo, setVideoInfo] = useState<VideoInfo[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [sequencia, setSequencia] = useState("");
   const [videoSelecionado, setVideoSelecionado] = useState<VideoInfo | null>(
     null
   );
+  const [videoToDelete, setVideoToDelete] = useState<string | null>(null);
 
   const toggleModal = (video?: any) => {
     if (modalOpen) {
@@ -49,20 +50,33 @@ export const VideoGrid: React.FC = () => {
 
     if (video) {
       console.log("Dados recebidos no modal:", video);
-      setVideoSelecionado(video); // <- armazena o vídeo selecionado
+      setVideoSelecionado(video);
       setTitulo(video.titulo);
       setDescricao(video.descricao);
-      setSequencia(video.sequencia?.toString() || ""); // segurança contra undefined
+      setSequencia(video.sequencia?.toString() || "");
     }
 
     setModalOpen(true);
+  };
+
+  const toggleDeleteModal = (objID?: string) => {
+    if (deleteModalOpen) {
+      setDeleteModalOpen(false);
+      setVideoToDelete(null);
+      return;
+    }
+
+    if (objID) {
+      setVideoToDelete(objID);
+      setDeleteModalOpen(true);
+    }
   };
 
   useEffect(() => {
     api
       .get("/InfoVideos/ListVideos")
       .then((response) => {
-        setVideos(response.data.videos); // Exemplo: ["id1.mp4", "id2.mp4"]
+        setVideos(response.data.videos);
       })
       .catch((error) => console.error("Erro ao buscar vídeos:", error));
   }, []);
@@ -71,7 +85,7 @@ export const VideoGrid: React.FC = () => {
     api
       .get("/InfoVideos")
       .then((response) => {
-        setVideoInfo(response.data); // Array de objetos { akademild, nome, descricao }
+        setVideoInfo(response.data);
       })
       .catch((error) =>
         console.error("Erro ao buscar detalhes do vídeo:", error)
@@ -86,7 +100,7 @@ export const VideoGrid: React.FC = () => {
     const info = videoInfo.find((v) => cleanFileName(v.objID) === cleanName);
     return {
       akademild: videoFileName,
-      objID: info?.objID ?? "", // <- importante!
+      objID: info?.objID ?? "",
       titulo: info?.titulo ?? "Sem nome",
       descricao: info?.descricao ?? "Sem descrição",
     };
@@ -94,7 +108,6 @@ export const VideoGrid: React.FC = () => {
 
   if (videos.length === 0) return <p>Carregando vídeos...</p>;
 
-  // Função para abrir o modal com os dados do vídeo selecionado
   const handleEdit = async () => {
     if (!videoSelecionado) return;
 
@@ -119,26 +132,33 @@ export const VideoGrid: React.FC = () => {
         );
 
         setModalOpen(false);
-      } else {
-        toast.error("Erro ao atualizar informações.", { autoClose: 1500 });
       }
     } catch (error) {
       console.error("Erro ao atualizar informações:", error);
     }
   };
 
-  // função para deletar o vídeo
   const handleDelete = async (objID: string) => {
     try {
       const response = await api.delete(`/InfoVideos?objId=${objID}`);
-
+      if (response.data.isValid) {
+        setVideos((prev) => prev.filter((video) => !video.includes(objID)));
+        setVideoInfo((prev) => prev.filter((video) => video.objID !== objID));
+      }
       return response.data.isValid ?? false;
     } catch (error) {
-      console.error("Erro na requisição:", error, { autoClose: 1000 });
-      // toast.error("Erro ao deletar fazenda.", { autoClose: 1000 });
+      console.error("Erro na requisição:", error);
       return false;
     }
   };
+
+  const confirmDelete = async () => {
+    if (videoToDelete) {
+      await handleDelete(videoToDelete);
+      toggleDeleteModal();
+    }
+  };
+
   return (
     <>
       <Context>
@@ -186,7 +206,7 @@ export const VideoGrid: React.FC = () => {
                         </CustomDropdownItem>
                         <CustomDropdownItem divider />
                         <CustomDropdownItem
-                          onClick={() => handleDelete(video.objID)}
+                          onClick={() => toggleDeleteModal(video.objID)}
                         >
                           Deleta
                         </CustomDropdownItem>
@@ -200,7 +220,7 @@ export const VideoGrid: React.FC = () => {
         </Grid>
       </Context>
 
-      {/* Modal de Formulário */}
+      {/* Modal de Edição */}
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <CustomModalHeader toggle={toggleModal}>
           <h3 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
@@ -239,6 +259,26 @@ export const VideoGrid: React.FC = () => {
             Salvar
           </NewButton>
           <ButtonClose color="secondary" onClick={toggleModal}>
+            Cancelar
+          </ButtonClose>
+        </ModalFooter>
+      </Modal>
+
+      {/* Modal de Confirmação de Deleção */}
+      <Modal isOpen={deleteModalOpen}>
+        <CustomModalHeader toggle={toggleDeleteModal}>
+          <h3 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
+            Confirmar Deleção
+          </h3>
+        </CustomModalHeader>
+        <ModalBody>
+          <p>Deseja realmente apagar este vídeo?</p>
+        </ModalBody>
+        <ModalFooter>
+          <NewButton color="danger" onClick={confirmDelete}>
+            Sim, Deletar
+          </NewButton>
+          <ButtonClose color="secondary" onClick={toggleDeleteModal}>
             Cancelar
           </ButtonClose>
         </ModalFooter>

@@ -25,9 +25,6 @@ interface Video {
   channel: string;
   videoUrl?: string;
 }
-type Props = {
-  videos: Video[]; // ou qualquer que seja o tipo dos vídeos
-};
 
 export const VideoInfo: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -35,16 +32,15 @@ export const VideoInfo: React.FC = () => {
   const [progressModalOpen, setProgressModalOpen] = useState(false);
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
-  const [sequencia, setSequencia] = useState("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [gridKey, setGridKey] = useState(0); // State to force VideoGrid remount
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
     if (modalOpen) {
       setTitulo("");
       setDescricao("");
-      setSequencia("");
       setVideoFile(null);
     }
   };
@@ -71,13 +67,8 @@ export const VideoInfo: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (!titulo || !descricao || !sequencia || !videoFile) {
+    if (!titulo || !descricao || !videoFile) {
       alert("Preencha todos os campos e selecione um vídeo!");
-      return;
-    }
-
-    if (!/^\d+$/.test(sequencia)) {
-      alert("Sequência deve ser um número inteiro.");
       return;
     }
 
@@ -85,7 +76,6 @@ export const VideoInfo: React.FC = () => {
       const up_file = {
         titulo: titulo,
         descricao: descricao,
-        sequence: parseInt(sequencia),
       };
 
       // Save video metadata and get objID
@@ -128,7 +118,7 @@ export const VideoInfo: React.FC = () => {
         // Corpo da requisição
         const body = {
           idPartition: uuidv4(),
-          idVideo: objID, // Use objID from metadata response
+          idVideo: objID,
           partition: i + 1,
           videoPartition: videoPartition,
         };
@@ -159,19 +149,21 @@ export const VideoInfo: React.FC = () => {
 
       // Após enviar todas as partes, adiciona o vídeo à lista
       const novoVideo: Video = {
-        id: objID, // Use objID as the video ID
+        id: objID,
         thumbnail: "https://img.youtube.com/vi/exMe3ZRamoU/hqdefault.jpg",
         title: titulo,
         channel: descricao,
-        videoUrl: `/videos/${objID}`, // Use objID in the video URL
+        videoUrl: `/videos/${objID}`,
       };
 
       setVideos([...videos, novoVideo]);
 
+      // Force VideoGrid to remount and refetch data
+      setGridKey((prev) => prev + 1);
+
       // Limpa campos e fecha modais
       setTitulo("");
       setDescricao("");
-      setSequencia("");
       setVideoFile(null);
       setProgressModalOpen(false);
       toggleModal();
@@ -190,7 +182,9 @@ export const VideoInfo: React.FC = () => {
           <Col lg="6" style={{ padding: "0px 0px 0px 40px" }}>
             <NewButton onClick={toggleModal}>Novo Vídeo</NewButton>
           </Col>
-          <VideoGrid />
+          <div key={gridKey}>
+            <VideoGrid />
+          </div>
         </Row>
       </Context>
 
@@ -219,22 +213,11 @@ export const VideoInfo: React.FC = () => {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="sequencia">Sequência</Label>
-              <Input
-                id="sequencia"
-                type="number"
-                min={1}
-                value={sequencia}
-                onChange={(e) => setSequencia(e.target.value)}
-                placeholder="Ex: 1"
-              />
-            </FormGroup>
-            <FormGroup>
               <Label for="video">Selecionar Vídeo</Label>
               <Input
                 id="video"
                 type="file"
-                accept="video/*"
+                accept="video/mp4"
                 onChange={handleFileChange}
               />
             </FormGroup>
