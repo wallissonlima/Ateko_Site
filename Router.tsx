@@ -36,11 +36,11 @@ export function Router() {
           <Route path="/confirmacao/:token" element={<Confirmacao />} />
 
           <Route
-            path="/inicio"
+            path="/start"
             element={<ProtectedRoute component={Inicio} />}
           />
           <Route
-            path="/videoseducacional"
+            path="/pedagogiskvideo"
             element={<ProtectedRoute component={VideosEducacional} />}
           />
           <Route

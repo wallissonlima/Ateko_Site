@@ -17,6 +17,7 @@ import { useState } from "react";
 import { VideoGrid } from "./components/videioGrid";
 import { v4 as uuidv4 } from "uuid";
 import api from "../../../config/api";
+import { CustomModalHeader } from "../videos_educacional/styles";
 
 interface Video {
   id: string;
@@ -169,7 +170,7 @@ export const VideoInfo: React.FC = () => {
       toggleModal();
     } catch (error) {
       console.error("Erro no upload:", error);
-      alert("Ocorreu um erro ao enviar o vídeo. Tente novamente.");
+      alert("Det oppsto en feil under opplasting av videoen. Prøv på nytt.");
       setProgressModalOpen(false);
     }
   };
@@ -180,7 +181,7 @@ export const VideoInfo: React.FC = () => {
       <Context>
         <Row>
           <Col lg="6" style={{ padding: "0px 0px 0px 40px" }}>
-            <NewButton onClick={toggleModal}>Novo Vídeo</NewButton>
+            <NewButton onClick={toggleModal}>Ny video</NewButton>
           </Col>
           <div key={gridKey}>
             <VideoGrid />
@@ -190,30 +191,35 @@ export const VideoInfo: React.FC = () => {
 
       {/* Modal de Formulário */}
       <Modal isOpen={modalOpen} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Adicionar Novo Vídeo</ModalHeader>
+        <CustomModalHeader toggle={toggleModal}>
+          {" "}
+          <h2 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
+            Legg til ny video
+          </h2>
+        </CustomModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="titulo">Título</Label>
+              <Label for="titulo">Tittel</Label>
               <Input
                 id="titulo"
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
-                placeholder="Digite o título"
+                placeholder="Skriv inn tittelen"
               />
             </FormGroup>
             <FormGroup>
-              <Label for="descricao">Descrição</Label>
+              <Label for="descricao">Beskrivelse</Label>
               <Input
                 id="descricao"
                 type="textarea"
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
-                placeholder="Digite a descrição"
+                placeholder="Skriv inn beskrivelsen"
               />
             </FormGroup>
             <FormGroup>
-              <Label for="video">Selecionar Vídeo</Label>
+              <Label for="video">Velg video</Label>
               <Input
                 id="video"
                 type="file"
@@ -225,19 +231,19 @@ export const VideoInfo: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <NewButton color="primary" onClick={handleSubmit}>
-            Salvar
+            Berging
           </NewButton>
           <ButtonClose color="secondary" onClick={toggleModal}>
-            Cancelar
+            Kansellere
           </ButtonClose>
         </ModalFooter>
       </Modal>
 
       {/* Modal de Progresso */}
       <Modal isOpen={progressModalOpen} backdrop="static" keyboard={false}>
-        <ModalHeader>Enviando Vídeo</ModalHeader>
+        <ModalHeader>Sender video</ModalHeader>
         <ModalBody>
-          <p>Por favor, aguarde enquanto o vídeo é enviado...</p>
+          <p>Vent mens videoen lastes opp...</p>
           <Progress animated value={uploadProgress} max={100}>
             {Math.round(uploadProgress)}%
           </Progress>

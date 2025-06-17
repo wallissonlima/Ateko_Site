@@ -189,7 +189,7 @@ export const VideosEducacional: React.FC = () => {
       <Context>
         <Row>
           <Col lg="6" style={{ padding: "0px 0px 0px 40px" }}>
-            <NewButton onClick={toggleModal}>Novo Vídeo</NewButton>
+            <NewButton onClick={toggleModal}>Ny video</NewButton>
           </Col>
           <div key={gridKey}>
             <VideoGrid />
@@ -201,37 +201,37 @@ export const VideosEducacional: React.FC = () => {
       <Modal isOpen={modalOpen} toggle={toggleModal}>
         <CustomModalHeader toggle={toggleModal}>
           <h2 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
-            Adicionar Novo Vídeo
+            Legg til ny video
           </h2>
         </CustomModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
               <Label style={{ fontWeight: "bold" }} for="titulo">
-                Título
+                Tittel
               </Label>
               <Input
                 id="titulo"
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
-                placeholder="Digite o título"
+                placeholder="Skriv inn tittelen"
               />
             </FormGroup>
             <FormGroup>
               <Label style={{ fontWeight: "bold" }} for="descricao">
-                Descrição
+                Beskrivelse
               </Label>
               <Input
                 id="descricao"
                 type="textarea"
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
-                placeholder="Digite a descrição"
+                placeholder="Skriv inn beskrivelsen"
               />
             </FormGroup>
             <FormGroup>
               <Label style={{ fontWeight: "bold" }} for="sequencia">
-                Sequência
+                Sekvens
               </Label>
               <Input
                 id="sequencia"
@@ -244,7 +244,7 @@ export const VideosEducacional: React.FC = () => {
             </FormGroup>
             <FormGroup>
               <Label style={{ fontWeight: "bold" }} for="video">
-                Selecionar Vídeo
+                Velg video
               </Label>
               <Input
                 id="video"
@@ -257,19 +257,19 @@ export const VideosEducacional: React.FC = () => {
         </ModalBody>
         <ModalFooter>
           <NewButton color="primary" onClick={handleSubmit}>
-            Salvar
+            Berging
           </NewButton>
           <ButtonClose color="secondary" onClick={toggleModal}>
-            Cancelar
+            Kansellere
           </ButtonClose>
         </ModalFooter>
       </Modal>
 
       {/* Modal de Progresso */}
       <Modal isOpen={progressModalOpen} backdrop="static" keyboard={false}>
-        <ModalHeader>Enviando Vídeo</ModalHeader>
+        <ModalHeader>Sender video</ModalHeader>
         <ModalBody>
-          <p>Por favor, aguarde enquanto o vídeo é enviado...</p>
+          <p>Vent mens videoen lastes opp...</p>
           <Progress animated value={uploadProgress} max={100}>
             {Math.round(uploadProgress)}%
           </Progress>

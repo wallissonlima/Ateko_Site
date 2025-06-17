@@ -117,7 +117,7 @@ export const TableRow = styled.tr`
 `;
 
 export const CustomModalHeader = styled(ModalHeader)`
-  background: ${(props) => props.theme["green-400"]};
+  background: ${(props) => props.theme.white};
 `;
 
 export const ButtonClose = styled(Button)`
@@ -132,5 +132,3 @@ export const ButtonClose = styled(Button)`
     transition: background-color 0.2s;
   }
 `;
-
-

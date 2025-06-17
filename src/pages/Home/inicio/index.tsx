@@ -195,7 +195,7 @@ export function Inicio() {
                 setIsEditQuestion(false);
               }}
             >
-              Nova pergunta
+              Nytt spørsmål
             </NewButton>
           </Col>
           <NewTransactionTable>
@@ -244,7 +244,11 @@ export function Inicio() {
       <Modal isOpen={openCadastroQuestion} centered={true} size="lm">
         <CustomModalHeader>
           <h2 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
-            {isEditQuestion ? `Editar pergunta` : `Cadastra nova Pergunta`}
+            {isEditQuestion
+              ? `
+              Rediger spørsmål `
+              : `
+              Registrer nytt spørsmål`}
           </h2>
         </CustomModalHeader>
         <ModalBody>
@@ -262,13 +266,13 @@ export function Inicio() {
               }
             }}
           >
-            {isEditQuestion ? `Salvar` : `Cadastrar`}
+            {isEditQuestion ? `Berging` : `Register`}
           </NewButton>
           <ButtonClose
             type="button"
             onClick={() => setOpenCadastroQuestion(!openCadastroQuestion)}
           >
-            Cancelar
+            Berging
           </ButtonClose>
         </ModalFooter>
       </Modal>
@@ -283,30 +287,30 @@ export function Inicio() {
               fontFamily: "Arial, sans-serif",
             }}
           >
-            Alerta!!
+            Varsle!!
           </h2>
         </ModalHeader>
         {selectedQuestion ? (
           <ModalBody>
             <h5>
-              Deseja apagar este Cliente?{" "}
+              Vil du slette denne klienten?{" "}
               <b>{selectedQuestion.questionTexts}</b>
             </h5>
           </ModalBody>
         ) : (
           <ModalBody>
-            <h4>Carregando...</h4>
+            <h4>Laster...</h4>
           </ModalBody>
         )}
         <ModalFooter>
           <NewButton type="submit" onClick={handleDelete}>
-            Confirmar
+            Bekrefte
           </NewButton>
           <ButtonClose
             type="button"
             onClick={() => setOpenDeleteQuestion(!openDeleteQuestion)}
           >
-            cancelar
+            Kansellere
           </ButtonClose>
         </ModalFooter>
       </Modal>

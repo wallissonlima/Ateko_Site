@@ -33,20 +33,20 @@ export function Header() {
             <Nav>
               <NavItem>
                 <NavLink
-                  href="#/inicio"
-                  className={location.pathname === "/inicio" ? "active" : ""}
+                  href="#/start"
+                  className={location.pathname === "/start" ? "active" : ""}
                 >
-                  Inicio
+                  Start
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  href="#/videoseducacional"
+                  href="#/pedagogiskvideo"
                   className={
-                    location.pathname === "/videoseducacional" ? "active" : ""
+                    location.pathname === "/pedagogiskvideo" ? "active" : ""
                   }
                 >
-                  Video Educacional
+                  Pedagogisk video
                 </NavLink>
               </NavItem>
               <NavItem>

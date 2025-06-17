@@ -38,7 +38,7 @@ export function CadQuestion({ dt, up }: iProps) {
 
   return (
     <Form>
-      <Label>Pergunta</Label>
+      <Label>Spørsmål</Label>
       <Input
         required
         name="questionTexts"
