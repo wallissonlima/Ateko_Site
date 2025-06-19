@@ -7,7 +7,7 @@ function NavLogin() {
   auth.check();
   const isLoggedIn = auth.isAuth;
 
-  return <>{isLoggedIn ? <Navigate to="/inicio" /> : <Login />}</>;
+  return <>{isLoggedIn ? <Navigate to="/start" /> : <Login />}</>;
 }
 
 export default NavLogin;

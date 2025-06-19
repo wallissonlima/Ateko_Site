@@ -25,7 +25,7 @@ export function Header() {
     <>
       <Context>
         <Navbar>
-          <NavbarBrand href="/inicio">
+          <NavbarBrand href="/start">
             <img src={logoSigma} alt="Logo Tipo" />
           </NavbarBrand>
 
