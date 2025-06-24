@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Context = styled.nav`
   width: 100%;
   padding-right: 0.5rem;
-  background-color: ${(props) => props.theme["green-300"]};
+  background-color: ${(props) => props.theme["blue-300"]};
 
   img {
     width: 7rem;
