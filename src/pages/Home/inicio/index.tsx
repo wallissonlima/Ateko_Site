@@ -138,11 +138,15 @@ export function Inicio() {
     try {
       setOpenCadastroQuestion(true);
       const cliente = await _findQuestion(objID);
+
+      console.log(cliente);
+
       if (cliente) {
         setRegistroQuestion((prevState) => ({
           ...prevState,
           objID: cliente.objID,
           questionTexts: cliente.questionTexts,
+          importantQuestion: cliente.importantQuestion,
         }));
       } else {
         toast.info("Spørsmålet ble ikke funnet.", { autoClose: 2000 });
