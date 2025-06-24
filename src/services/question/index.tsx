@@ -8,16 +8,14 @@ export const _createQuestion = async (data: any) => {
       headers: header,
     });
 
-    toast.success("Pergunta cadastrado com sucesso!", { autoClose: 2000 });
+    toast.success("Spørsmålet er registrert!", { autoClose: 2000 });
     if (response.data) {
       return response.data.isValid;
     } else {
       return false;
     }
   } catch (error) {
-    console.error("Erro na requisição:", error, { autoClose: 2000 });
-
-    toast.error("Erro ao cadastrar Pergunta.", { autoClose: 2000 });
+    toast.error("Feil ved registrering av spørsmål.", { autoClose: 2000 });
     return false;
   }
 };
@@ -28,21 +26,21 @@ export const _getAllQuestion = async () => {
     if (response.data.length > 0) {
       return response.data;
     } else {
-      toast.info("Não existe registros na base de dados", { autoClose: 2000 });
+      toast.info("Det finnes ingen poster i databasen", { autoClose: 2000 });
     }
   } catch (error) {
-    console.error("Erro ao carregar a lista de questionario", error, {
+    console.error("Feil ved lasting av spørreskjemalisten", error, {
       autoClose: 3000,
     });
 
-    toast.error("Erro ao carregar a lista de questionario", {
+    toast.error("Feil ved lasting av spørreskjemalisten", {
       autoClose: 2000,
     });
   }
 };
 
 export const _UpdateQuestion = async (objID: any) => {
-  console.log(objID)
+  console.log(objID);
   try {
     const response = await api.put(
       `/QuestionBruker/?IdQuestion=${objID.objID}`,
@@ -50,11 +48,10 @@ export const _UpdateQuestion = async (objID: any) => {
       { headers: header }
     );
 
-    toast.success("Pergunta atualizado com sucesso!", { autoClose: 3000 });
+    toast.success("Spørsmålet ble oppdatert!", { autoClose: 3000 });
     return response.data.isValid ?? false;
   } catch (error) {
-    console.error("Erro na requisição:", error, { autoClose: 2000 });
-    toast.error("Erro ao atualizar Pergunta.", { autoClose: 2000 });
+    toast.error("Feil under oppdatering av spørsmål.", { autoClose: 2000 });
     return false;
   }
 };
@@ -67,26 +64,24 @@ export const _findQuestion = async (objID: any) => {
     if (response.data) {
       return response.data;
     } else {
-      toast.info("Não existe registros na base de dados", { autoClose: 3000 });
+      toast.info("Det finnes ingen poster i databasen", { autoClose: 3000 });
       return null;
     }
   } catch (error) {
-    console.error("Erro ao carregar a lista de perguntas", error, {
+    console.error("Feil ved innlasting av spørsmålsliste!", error, {
       autoClose: 3000,
     });
 
-    toast.error("Erro ao carregar a lista de perguntas", { autoClose: 3000 });
+    toast.error("Feil ved innlasting av spørsmålsliste!", { autoClose: 3000 });
   }
 };
 
 export const _DeleteQuestion = async (objID: any) => {
   try {
     const response = await api.delete(`/QuestionBruker?IdQuestion=${objID}`);
-    // toast.success("Cliente deletado com sucesso!");
     return response.data.isValid ?? false;
   } catch (error) {
-    console.error("Erro na requisição:", error, { autoClose: 3000 });
-    toast.error("Erro ao deletar pergunta.", { autoClose: 3000 });
+    toast.error("Feil ved sletting av spørsmål.", { autoClose: 3000 });
     return false;
   }
 };

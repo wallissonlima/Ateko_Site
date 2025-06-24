@@ -31,6 +31,7 @@ import {
 import { CadQuestion } from "../../../operaction/Question";
 
 import { v4 as uuidv4 } from "uuid";
+import _ from "lodash";
 
 export function Inicio() {
   const [lstQuestion, setLstQuestion] = useState<iQuestionProps[]>([]);
@@ -45,6 +46,7 @@ export function Inicio() {
   const [registroQuestion, setRegistroQuestion] = useState<iQuestionProps>({
     objID: uuidv4(),
     questionTexts: "",
+    importantQuestion: false,
   });
 
   //Função para trazer as perguntas
@@ -70,10 +72,13 @@ export function Inicio() {
 
   //para criar uma nova pergunta
   const createQuestion = (e: any) => {
-    setRegistroQuestion((prevState: any) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    const objeto: any = _.cloneDeep(registroQuestion);
+    if (e.target.name === "importantQuestion") {
+      objeto["importantQuestion"] = e.target.value === "true" ? true : false;
+    } else {
+      objeto[e.target.name] = e.target.value;
+    }
+    setRegistroQuestion(objeto);
   };
 
   //adicionar um nova perguta
@@ -81,17 +86,19 @@ export function Inicio() {
     e.preventDefault();
 
     if (!registroQuestion.questionTexts) {
-      toast.error("Por favor, preencha todos os campos obrigatórios.", {
+      toast.error("Vennligst fyll ut alle obligatoriske felt.", {
         autoClose: 3000,
       });
       return;
     }
+
     const result = await _createQuestion(registroQuestion);
 
     // Limpar o formulário
     setRegistroQuestion({
       objID: "",
       questionTexts: "",
+      importantQuestion: false,
     });
     if (result) {
       LoadingQuestion();
@@ -113,11 +120,10 @@ export function Inicio() {
           setOpenCadastroQuestion(false);
         }
       } else {
-        toast.error("Erro ao atualizar cliente.", { autoClose: 3000 });
+        toast.error("Feil ved innlasting av spørsmål.", { autoClose: 3000 });
       }
     } catch (error) {
-      console.error("Erro ao atualizar cliente:", error);
-      toast.error("Erro ao atualizar cliente.", { autoClose: 3000 });
+      toast.error("Feil under oppdatering av spørsmål.", { autoClose: 3000 });
     }
   };
   //carregar os clietes para editar
@@ -138,13 +144,11 @@ export function Inicio() {
           objID: cliente.objID,
           questionTexts: cliente.questionTexts,
         }));
-        console.log(cliente);
       } else {
-        toast.info("Pergunta não encontrado.", { autoClose: 2000 });
+        toast.info("Spørsmålet ble ikke funnet.", { autoClose: 2000 });
       }
     } catch (error) {
-      console.error("Erro ao carregar Pergunta:", error);
-      toast.error("Erro ao carregar o Pergunta.", { autoClose: 2000 });
+      toast.error("Feil ved innlasting av spørsmål.", { autoClose: 2000 });
     }
   };
 
@@ -154,10 +158,10 @@ export function Inicio() {
       try {
         const result = await _DeleteQuestion(selectedQuestion.objID);
         if (result) {
-          toast.success("Cliente deletado com sucesso!", { autoClose: 2000 });
+          toast.success("Spørsmålet ble slettet!", { autoClose: 2000 });
           LoadingQuestion();
         } else {
-          toast.error("Erro ao deletar pergunta.", { autoClose: 2000 });
+          toast.error("Feil ved sletting av spørsmål.", { autoClose: 2000 });
         }
       } catch (error) {
         console.log("Erro ao deletar pergunta.", error);
@@ -190,6 +194,7 @@ export function Inicio() {
                 setRegistroQuestion({
                   objID: uuidv4(),
                   questionTexts: "",
+                  importantQuestion: false,
                 });
                 setOpenCadastroQuestion(!openCadastroQuestion);
                 setIsEditQuestion(false);
