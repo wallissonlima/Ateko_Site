@@ -54,20 +54,20 @@ export function Fornecedores() {
         setLstfornecedor(result);
       } else {
         setLstfornecedor([]); // Limpa a tabela se não houver fazendas para o cliente selecionado
-        toast.info("Nenhuma pergunta cadastrada", {
+        toast.info("Nenhum fornecedor cadastrado", {
           autoClose: 2000,
         });
       }
     } catch (error) {
       // console.error("Erro ao carregar fazendas do cliente:", error);
-      toast.error("Erro ao carregar as perguntas.", { autoClose: 1500 });
+      toast.error("Erro ao carregar os fornecedores.", { autoClose: 1500 });
     }
   };
   useEffect(() => {
     LoadingFornecedores(); // Chama a função para carregar as perguntas
   }, []);
 
-  //para criar uma nova pergunta
+  //para criar uma novo fornecedor
   const createFornecedor = (e: any) => {
     setRegistroFornecedor((prevState: any) => ({
       ...prevState,
@@ -101,7 +101,7 @@ export function Fornecedores() {
     }
   };
 
-  //editar perguntas
+  //editar fornecedor
   const handleEdit = async () => {
     try {
       const result = await _UpdateFornecedor(registroFornecedor); // Envia o estado `registro` para a API
@@ -123,7 +123,7 @@ export function Fornecedores() {
     }
   };
 
-  //carregar os clietes para editar
+  //carregar os fornecedor para editar
   const loodingFornecedor = async (e: any) => {
     setIsEditFornecedor(true);
     // Encontre a linha (<tr>) mais próxima do elemento clicado
