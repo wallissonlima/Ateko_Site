@@ -91,8 +91,6 @@ export const VideosEducacional: React.FC = () => {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log(up_date_for_video);
-
       if (!up_date_for_video.data.isValid) {
         throw new Error("Erro ao salvar os metadados do vídeo.");
       }
@@ -139,8 +137,6 @@ export const VideosEducacional: React.FC = () => {
           }
         );
 
-        console.log(response);
-
         if (!response.data.isValid) {
           throw new Error(`Erro ao enviar a parte ${i + 1}`);
         }
@@ -152,8 +148,6 @@ export const VideosEducacional: React.FC = () => {
       const up_video_to_server = await api.post(
         `/AtekoAkademi/LagreDiagnostikkvideo?IdAkademiVideo=${objID}`
       );
-
-      console.log(up_video_to_server);
 
       // Após enviar todas as partes, adiciona o vídeo à lista
       const novoVideo: Video = {

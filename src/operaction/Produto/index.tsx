@@ -22,6 +22,11 @@ export function CadProduto({ dt, up }: iProps) {
     tipo_produto: "",
     img: "",
   });
+  const produto = dt ?? {
+    nome_produto: "",
+    tipo_produto: "",
+    img: "",
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -41,6 +46,30 @@ export function CadProduto({ dt, up }: iProps) {
     up(e); // Chama a função de atualização
   };
 
+  // Função para tratar input file e converter para base64
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result as string;
+
+      // Como você não tem evento padrão para essa atualização,
+      // vamos criar um evento fake para chamar o 'up'
+      const fakeEvent = {
+        target: {
+          name: "img",
+          value: base64data,
+        },
+      } as unknown as React.ChangeEvent<HTMLInputElement>;
+
+      up(fakeEvent);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   return (
     <Form>
       <Row style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
@@ -50,7 +79,7 @@ export function CadProduto({ dt, up }: iProps) {
             name="nome_produto"
             type="text"
             maxLength={50}
-            value={dt.nome_produto}
+            value={produto.nome_produto}
             onChange={handleChange}
             required
             invalid={!!errors.nome_produto}
@@ -68,11 +97,11 @@ export function CadProduto({ dt, up }: iProps) {
             name="tipo_produto"
             type="text"
             maxLength={50}
-            value={dt.tipo_produto}
+            value={produto.tipo_produto}
             onChange={handleChange}
             invalid={!!errors.tipo_produto}
           />
-          {errors.nome_produto && (
+          {errors.tipo_produto && (
             <p style={{ color: "red", fontSize: "0.875rem" }}>
               {errors.tipo_produto}
             </p>
@@ -85,7 +114,7 @@ export function CadProduto({ dt, up }: iProps) {
             name="img"
             type="file"
             accept="image/*"
-            onChange={handleChange}
+            onChange={handleFileChange} // Aqui é a mudança
             className={errors.img ? "is-invalid" : ""}
           />
           {errors.img && (

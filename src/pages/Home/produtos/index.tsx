@@ -1,4 +1,11 @@
-import { Col, Modal, ModalBody, ModalFooter, Row } from "reactstrap";
+import {
+  Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+} from "reactstrap";
 import { Header } from "../../../components/Header";
 import { PageHeader } from "../../../components/pageHeader";
 import { CardProdutos } from "./card";
@@ -16,8 +23,10 @@ import { CadProduto } from "../../../operaction/Produto";
 import { toast } from "react-toastify";
 import {
   _createProduto,
+  _DeleteProduto,
   _getAllFornecedorProdutos,
   _getAllProdutos,
+  _UpdateProduto,
 } from "../../../services/produtos";
 import iFornecedorProps from "../../../interfaces/fornecedor";
 import { _getAllFornecedor } from "../../../services/fornecedor";
@@ -25,6 +34,7 @@ import { _getAllFornecedor } from "../../../services/fornecedor";
 export const Produtos = () => {
   const [filter, setFilter] = useState("");
   const [registro, setRegistro] = useState<any>();
+  const [filteredProdutos, setFilteredProdutos] = useState<iProdutoProps[]>([]);
   const [lstProduto, setLstProduto] = useState<iProdutoProps[]>([]);
 
   const [openCadastroProduto, setOpenCadastroProduto] =
@@ -32,24 +42,51 @@ export const Produtos = () => {
   const [openDeleteProduto, setOpenDeleteProduto] = useState<boolean>(false);
 
   const [isEditProduto, setIsEditProduto] = useState(false);
-
+  const [selectedProduto, setSelectedProduto] = useState<any>(null);
   const selectedFornecedor = useRef<any>();
+
+  const toggleModal = (produto?: iProdutoProps) => {
+    if (produto) {
+      setIsEditProduto(true); // Modo edição
+      setRegistroProduto(produto); // Preenche o formulário com os dados
+    } else {
+      setIsEditProduto(false); // Modo novo
+      setRegistroProduto(null); // Limpa o formulário
+    }
+    setOpenCadastroProduto(true); // Abre o modal
+  };
 
   //Filtra clientes para assim mostrar as fazendas
   const handleFilterChange = (e: any) => {
     const selectedName = e.target.value;
     setFilter(selectedName);
-    if (selectedName) {
-      // Encontra a fazenda com o nome selecionado
-      selectedFornecedor.current = registro.find(
-        (fornecedor: any) => fornecedor.nome === selectedName
-      );
 
-      LoadingFornecedorProdutos(selectedFornecedor.current.objID);
+    const fornecedor = registro.find(
+      (fornecedor: any) => fornecedor.nome === selectedName
+    );
+
+    if (fornecedor) {
+      selectedFornecedor.current = fornecedor;
+
+      // Atualiza os campos no estado do produto
+      setRegistroProduto((prev) => ({
+        ...prev,
+        idLeverandor: fornecedor.objID,
+        nome_fornecedor: fornecedor.nome,
+      }));
+
+      LoadingFornecedorProdutos(fornecedor.objID);
     } else {
-      // Limpa os filtros e estados relacionados
-      setRegistro([]);
+      // Se nome inválido, limpa os dados do fornecedor no produto
       selectedFornecedor.current = null;
+
+      setRegistroProduto((prev) => ({
+        ...prev,
+        idLeverandor: "",
+        nome_fornecedor: "",
+      }));
+      setLstProduto([]);
+      setFilteredProdutos([]);
     }
   };
 
@@ -75,42 +112,20 @@ export const Produtos = () => {
   }, []);
 
   // Função para carregar as fazendas de um cliente específico
-  const LoadingFornecedorProdutos = async (IdFornecedor: any) => {
+  const LoadingFornecedorProdutos = async (IdFornecedor: string) => {
     try {
-      const result = await _getAllFornecedorProdutos(IdFornecedor); // Nova função de requisição
-      // console.log("Resposta da API de produtos:", result);
+      const result = await _getAllFornecedorProdutos(IdFornecedor);
       if (result) {
-        console.log(result);
-        setRegistroProduto(result);
-      } else {
-        // Limpa a tabela se não houver fazendas para o cliente selecionado
-        toast.info(
-          "Nenhuma produto cadastrada para o fornecedor selecionado.",
-          { autoClose: 2000 }
-        );
-      }
-    } catch (error) {
-      // console.error("Erro ao carregar fazendas do cliente:", error);
-      toast.error("Erro ao carregar os produtos.", { autoClose: 1500 });
-    }
-  };
-
-  //Função para trazer todos os forncedores
-  const LoadingProdutos = async () => {
-    try {
-      const result = await _getAllProdutos(); // Nova função de requisição
-      console.log(result);
-      if (result) {
-        setRegistro(result);
         setLstProduto(result);
+        setFilteredProdutos(result); // inicialmente, todos os produtos desse fornecedor
       } else {
-        setLstProduto([]); // Limpa a tabela se não houver fazendas para o cliente selecionado
-        toast.info("Nenhum produto cadastrada", {
+        setLstProduto([]);
+        setFilteredProdutos([]);
+        toast.info("Nenhum produto cadastrado para o fornecedor selecionado.", {
           autoClose: 2000,
         });
       }
     } catch (error) {
-      // console.error("Erro ao carregar fazendas do cliente:", error);
       toast.error("Erro ao carregar os produtos.", { autoClose: 1500 });
     }
   };
@@ -133,31 +148,113 @@ export const Produtos = () => {
     }));
   };
 
-  //adicionar um nova perguta
+  //adicionar um novo produto
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    if (!registroProduto.nome_produto) {
-      toast.error("Por favor, preencha todos os campos obrigatórios.", {
-        autoClose: 3000,
+    // Garante que vamos buscar o fornecedor com base no nome digitado no input
+    const fornecedorSelecionado = registro.find((f: any) => f.nome === filter);
+
+    if (!fornecedorSelecionado) {
+      toast.error("Por favor, selecione um fornecedor válido da lista.", {
+        autoClose: 2000,
       });
       return;
     }
-    const result = await _createProduto(registroProduto);
 
-    // Limpar o formulário
-    setRegistroProduto({
-      objID: "",
-      nome_fornecedor: "",
-      idLeverandor: "",
-      nome_produto: "",
-      tipo_produto: "",
-      img: "",
-    });
-    if (result) {
-      // LoadingProduto();
-      setOpenCadastroProduto(false);
+    // Atualiza os campos antes de enviar
+    const produtoParaEnviar = {
+      ...registroProduto,
+      idLeverandor: fornecedorSelecionado.objID,
+      nome_fornecedor: fornecedorSelecionado.nome,
+    };
+
+    // Validação
+    if (!produtoParaEnviar.nome_produto || !produtoParaEnviar.idLeverandor) {
+      toast.error("Preencha todos os campos obrigatórios.", {
+        autoClose: 2000,
+      });
+
+      return;
     }
+
+    const result = await _createProduto(produtoParaEnviar);
+
+    if (result) {
+      setOpenCadastroProduto(false);
+      setRegistroProduto({
+        objID: "",
+        nome_fornecedor: "",
+        idLeverandor: "",
+        nome_produto: "",
+        tipo_produto: "",
+        img: "",
+      });
+    }
+  };
+
+  // função para editar os produtos
+  const handleEdit = async () => {
+    // Garante que vamos buscar o fornecedor com base no nome digitado no input
+    const fornecedorSelecionado = registro.find((f: any) => f.nome === filter);
+
+    if (!fornecedorSelecionado) {
+      toast.error("Por favor, selecione um fornecedor válido da lista.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    // Atualiza os campos antes de enviar
+    const produtoParaEnviar = {
+      ...registroProduto,
+      idLeverandor: fornecedorSelecionado.objID,
+      nome_fornecedor: fornecedorSelecionado.nome,
+    };
+    try {
+      const result = await _UpdateProduto(produtoParaEnviar);
+
+      if (result) {
+        toast.success("Fornecedor atualizado com sucesso!", {
+          autoClose: 3000,
+        });
+
+        setOpenCadastroProduto(false); // Fecha o modal
+        LoadingFornecedores(); // Recarrega a lista
+      } else {
+        toast.error("Erro ao atualizar fornecedor.", { autoClose: 3000 });
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar fornecedor:", error);
+      toast.error("Erro ao atualizar fornecedor.", { autoClose: 3000 });
+    }
+  };
+
+  //Deleta produto
+  const handleDelete = async () => {
+    if (selectedProduto) {
+      try {
+        const result = await _DeleteProduto(selectedProduto.objID);
+        if (result) {
+          toast.success("Fornecedor deletado com sucesso!", {
+            autoClose: 2000,
+          });
+          LoadingFornecedores();
+        } else {
+          toast.error("Erro ao deletar fornecedor.", { autoClose: 2000 });
+        }
+      } catch (error) {
+        // console.log("Erro ao deletar fornecedor.", error);
+      } finally {
+        setOpenDeleteProduto(false); // Fecha o modal
+        setSelectedProduto(null); // Limpa o fornecedor selecionado
+      }
+    }
+  };
+  //para confirmar que deletou
+  const confirmarDeleteProduto = (produto: iProdutoProps) => {
+    setSelectedProduto(produto);
+    setOpenDeleteProduto(true);
   };
   return (
     <>
@@ -175,39 +272,33 @@ export const Produtos = () => {
               />
               <datalist id="statusOptions">
                 {registro?.map((obj: iFornecedorProps) => {
-                  return <option key={obj.objID} value={`${obj.nome}`} />;
+                  return <option key={obj.objID} value={obj.nome} />;
                 })}
               </datalist>
             </div>
           </Col>
           <Col lg="2">
             <div className="btn">
-              <NewButton
-                onClick={() => {
-                  setRegistroProduto({
-                    objID: uuidv4(),
-                    nome_fornecedor: "",
-                    idLeverandor: "",
-                    nome_produto: "",
-                    tipo_produto: "",
-                    img: "",
-                  });
-                  setOpenCadastroProduto(!openCadastroProduto);
-                  setIsEditProduto(false);
-                }}
-              >
-                Novo Produto
-              </NewButton>
+              <NewButton onClick={() => toggleModal()}>Novo Produto</NewButton>
             </div>
           </Col>
         </Row>
         <PageHeader />
-        <CardProdutos />
+        <CardProdutos
+          produtos={filteredProdutos}
+          onEditProduto={toggleModal}
+          onDeleteProduto={confirmarDeleteProduto}
+        />
       </Context>
 
-      {/* Modal */}
-      <Modal isOpen={openCadastroProduto} centered={true} size="lm">
-        <CustomModalHeader>
+      {/* Modal produtos */}
+      <Modal
+        isOpen={openCadastroProduto}
+        toggle={() => setOpenCadastroProduto(!openCadastroProduto)}
+        centered={true}
+        size="lm"
+      >
+        <CustomModalHeader toggle={() => setOpenCadastroProduto(false)}>
           <h2 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
             {isEditProduto
               ? `
@@ -224,8 +315,11 @@ export const Produtos = () => {
             type="submit"
             onClick={(e: any) => {
               e.preventDefault(); // Evita que o formulário seja enviado
-
-              handleSubmit(e); // Chama a função de criação (POST)
+              if (isEditProduto) {
+                handleEdit(); // PUT ou PATCH
+              } else {
+                handleSubmit(e); // Chama a função de criação (POST)
+              }
             }}
           >
             {isEditProduto ? `Berging` : `Register`}
@@ -235,6 +329,52 @@ export const Produtos = () => {
             onClick={() => setOpenCadastroProduto(!openCadastroProduto)}
           >
             Berging
+          </ButtonClose>
+        </ModalFooter>
+      </Modal>
+
+      {/*Modal messagem deletar cliente */}
+      <Modal
+        isOpen={openDeleteProduto}
+        toggle={() => setOpenDeleteProduto(!openDeleteProduto)}
+        centered={true}
+        size="lm"
+      >
+        <ModalHeader
+          style={{ background: "#8B0000" }}
+          toggle={() => setOpenDeleteProduto(false)}
+        >
+          <h2
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontFamily: "Arial, sans-serif",
+            }}
+          >
+            Varsle!!
+          </h2>
+        </ModalHeader>
+        {selectedProduto ? (
+          <ModalBody>
+            <h5>
+              Vil du slette denne klienten?{" "}
+              <b>{selectedProduto.nome_produto}</b>
+            </h5>
+          </ModalBody>
+        ) : (
+          <ModalBody>
+            <h4>Laster...</h4>
+          </ModalBody>
+        )}
+        <ModalFooter>
+          <NewButton type="submit" onClick={handleDelete}>
+            Bekrefte
+          </NewButton>
+          <ButtonClose
+            type="button"
+            onClick={() => setOpenDeleteProduto(!openDeleteProduto)}
+          >
+            Kansellere
           </ButtonClose>
         </ModalFooter>
       </Modal>

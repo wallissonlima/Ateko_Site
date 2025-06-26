@@ -49,7 +49,6 @@ export const VideoGrid: React.FC = () => {
     }
 
     if (video) {
-      console.log("Dados recebidos no modal:", video);
       setVideoSelecionado(video);
       setTitulo(video.titulo);
       setDescricao(video.descricao);

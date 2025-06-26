@@ -1,48 +1,109 @@
-import { CardBody, CardFooter } from "reactstrap";
-import { Context } from "../../fornecedores/styles";
-import { CustomCard, CustonCardHeader } from "./styles";
+import {
+  Button,
+  CardBody,
+  CardFooter,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from "reactstrap";
+
+import {
+  Context,
+  CustomCard,
+  CustomDropdownItem,
+  CustomDropdownMenu,
+  CustonCardHeader,
+} from "./styles";
 
 import { useEffect, useState } from "react";
-import iFornecedorProps from "../../../../interfaces/fornecedor";
 import { toast } from "react-toastify";
-// import { _getAllFornecedorProdutos } from "../../../../services/produtos";
+import { _getAllProdutos } from "../../../../services/produtos";
+import iProdutoProps from "../../../../interfaces/produto";
+import { Gear } from "phosphor-react";
 
-export const CardProdutos = () => {
-  const [lstFornecedor, setLstfornecedor] = useState<iFornecedorProps[]>([]);
+interface CardProdutosProps {
+  produtos: iProdutoProps[];
+  onEditProduto: (produto: iProdutoProps) => void;
+  onDeleteProduto: (produto: iProdutoProps) => void;
+}
+export const CardProdutos = ({
+  produtos,
+  onEditProduto,
+  onDeleteProduto,
+}: CardProdutosProps) => {
+  const [lstProduto, setLstProduto] = useState<iProdutoProps[]>([]);
 
-  //Função para trazer as perguntas
-  // const LoadingProdutos = async () => {
-  //   try {
-  //     const result = await _getAllFornecedorProdutos(); // Nova função de requisição
-  //     console.log("produtos", result);
-  //     if (result) {
-  //       setLstfornecedor(result);
-  //     } else {
-  //       setLstfornecedor([]); // Limpa a tabela se não houver fazendas para o cliente selecionado
-  //       toast.info("Nenhuma pergunta cadastrada", {
-  //         autoClose: 2000,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     // console.error("Erro ao carregar fazendas do cliente:", error);
-  //     toast.error("Erro ao carregar as perguntas.", { autoClose: 1500 });
-  //   }
-  // };
-  // useEffect(() => {
-  //   LoadingProdutos();
-  // }, []);
+  //Função para trazer todos os produtos
+  const LoadingProdutos = async () => {
+    try {
+      const result = await _getAllProdutos();
+      if (result) {
+        setLstProduto(result);
+      } else {
+        setLstProduto([]);
+        toast.info("Nenhum produto cadastrado", { autoClose: 2000 });
+      }
+    } catch (error) {
+      toast.error("Erro ao carregar os produtos.", { autoClose: 1500 });
+    }
+  };
+
+  useEffect(() => {
+    LoadingProdutos();
+  }, []);
 
   return (
     <Context>
-      <CustomCard>
-        <CustonCardHeader>produtos</CustonCardHeader>
-        <CardBody>
-          <h2>teste </h2>
-        </CardBody>
-        <CardFooter>
-          <h2>teste footer</h2>
-        </CardFooter>
-      </CustomCard>
+      {produtos.length === 0 && (
+        <p>Nenhum produto para o fornecedor selecionado.</p>
+      )}
+
+      {produtos.map((produto) => (
+        <CustomCard key={produto.objID}>
+          <CustonCardHeader>
+            {produto.img && (
+              <img
+                src={produto.img}
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: "8px",
+                }}
+              />
+            )}
+          </CustonCardHeader>
+          <CardBody>
+            <p>
+              <b>Nome do produto:</b> {produto.nome_produto}
+            </p>
+            <p>
+              <b>Tipo:</b> {produto.tipo_produto}
+            </p>
+          </CardBody>
+          <CardFooter className="selectIcon">
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <UncontrolledDropdown>
+                <DropdownToggle nav caret>
+                  <Gear
+                    size={30}
+                    style={{
+                      color: "hsl(120, 100%, 19.607843137254903%)",
+                    }}
+                  />
+                </DropdownToggle>
+                <CustomDropdownMenu>
+                  <CustomDropdownItem onClick={() => onEditProduto(produto)}>
+                    Editar
+                  </CustomDropdownItem>
+                  <CustomDropdownItem divider />
+                  <CustomDropdownItem onClick={() => onDeleteProduto(produto)}>
+                    Deleta
+                  </CustomDropdownItem>
+                </CustomDropdownMenu>
+              </UncontrolledDropdown>
+            </div>
+          </CardFooter>
+        </CustomCard>
+      ))}
     </Context>
   );
 };

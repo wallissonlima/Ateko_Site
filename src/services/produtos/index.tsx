@@ -46,7 +46,7 @@ export const _getAllFornecedorProdutos = async (IdFornecedor: any) => {
     const response = await api.get(
       `/LeverandorProdukts/FindAllDescriptionByFornecedor?IdFornecedor=${IdFornecedor}`
     );
-    console.log(response)
+
     if (response.data.length > 0) {
       return response.data;
     } else {
@@ -55,5 +55,36 @@ export const _getAllFornecedorProdutos = async (IdFornecedor: any) => {
   } catch (error) {
     // console.error("Erro ao carregar as fazendas do cliente:", error);
     throw error;
+  }
+};
+
+export const _UpdateProduto = async (objID: any) => {
+  try {
+    const response = await api.put(
+      `/LeverandorProdukts/?objID=${objID.objID}`,
+      objID,
+      {
+        headers: header,
+      }
+    );
+
+    toast.success("Produto atualizado com sucesso!", { autoClose: 3000 });
+    return response.data.isValid ?? false;
+  } catch (error) {
+    console.error("Erro na requisição:", error, { autoClose: 2000 });
+    toast.error("Erro ao atualizar Produto.", { autoClose: 2000 });
+    return false;
+  }
+};
+
+export const _DeleteProduto = async (objID: any) => {
+  try {
+    const response = await api.delete(`/LeverandorProdukts?objID=${objID}`);
+    // toast.success("Cliente deletado com sucesso!");
+    return response.data.isValid ?? false;
+  } catch (error) {
+    console.error("Erro na requisição:", error, { autoClose: 2000 });
+    toast.error("Erro ao deletar produto.", { autoClose: 2000 });
+    return false;
   }
 };

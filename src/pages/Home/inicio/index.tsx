@@ -138,7 +138,6 @@ export function Inicio() {
           objID: cliente.objID,
           questionTexts: cliente.questionTexts,
         }));
-        console.log(cliente);
       } else {
         toast.info("Pergunta não encontrado.", { autoClose: 2000 });
       }
@@ -160,7 +159,7 @@ export function Inicio() {
           toast.error("Erro ao deletar pergunta.", { autoClose: 2000 });
         }
       } catch (error) {
-        console.log("Erro ao deletar pergunta.", error);
+        // console.log("Erro ao deletar pergunta.", error);
       } finally {
         setOpenDeleteQuestion(false); // Fecha o modal
         setSelectedQuestion(null); // Limpa o cliente selecionado

@@ -49,7 +49,6 @@ export function Fornecedores() {
   const LoadingFornecedores = async () => {
     try {
       const result = await _getAllFornecedor(); // Nova função de requisição
-      console.log(result);
       if (result) {
         setLstfornecedor(result);
       } else {
@@ -144,7 +143,6 @@ export function Fornecedores() {
           contato: fornecedor.contato,
           tipo_distribuicao: fornecedor.tipo_distribuicao,
         }));
-        console.log(fornecedor);
       } else {
         toast.info("Pergunta não encontrado.", { autoClose: 2000 });
       }
@@ -168,7 +166,7 @@ export function Fornecedores() {
           toast.error("Erro ao deletar fornecedor.", { autoClose: 2000 });
         }
       } catch (error) {
-        console.log("Erro ao deletar fornecedor.", error);
+        // console.log("Erro ao deletar fornecedor.", error);
       } finally {
         setOpenDeleteFornecedor(false); // Fecha o modal
         setSelectedFornecedor(null); // Limpa o fornecedor selecionado

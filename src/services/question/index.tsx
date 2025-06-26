@@ -42,7 +42,6 @@ export const _getAllQuestion = async () => {
 };
 
 export const _UpdateQuestion = async (objID: any) => {
-  console.log(objID)
   try {
     const response = await api.put(
       `/QuestionBruker/?IdQuestion=${objID.objID}`,

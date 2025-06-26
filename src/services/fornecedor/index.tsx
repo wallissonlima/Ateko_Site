@@ -42,7 +42,6 @@ export const _getAllFornecedor = async () => {
 };
 
 export const _UpdateFornecedor = async (objID: any) => {
-  console.log(objID);
   try {
     const response = await api.put(`/Leverandor/?objID=${objID.objID}`, objID, {
       headers: header,
@@ -88,5 +87,3 @@ export const _DeleteFornecedor = async (objID: any) => {
     return false;
   }
 };
-
-
