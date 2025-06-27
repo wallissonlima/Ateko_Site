@@ -21,6 +21,14 @@ export const Grid = styled.div`
     flex: 1 1 300px; // mínimo de 300px, cresce conforme o espaço
     max-width: 100%;
   }
+
+  .selectIcon svg {
+    transition: transform 0.2s ease;
+  }
+
+  .selectIcon svg:active {
+    transform: scale(1.2);
+  }
 `;
 export const CustomModalHeader = styled(ModalHeader)`
   background: ${(props) => props.theme.white};

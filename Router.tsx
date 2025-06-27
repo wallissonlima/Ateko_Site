@@ -6,7 +6,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Inicio } from "./src/pages/Home/inicio";
 import { VideosEducacional } from "./src/pages/Home/videos_educacional";
-import { Agendamento } from "./src/pages/Home/agendamento";
+import { Fornecedores } from "./src/pages/Home/fornecedores";
 import { NovaSenha } from "./src/pages/Home/novaSenha";
 import { Confirmacao } from "./src/pages/Home/confirmacao";
 import { VideoInfo, VideosInfo } from "./src/pages/Home/video_info";
@@ -53,8 +53,12 @@ export function Router() {
             element={<ProtectedRoute component={VideoInfo} />}
           />
           <Route
-            path="/agendamento"
-            element={<ProtectedRoute component={Agendamento} />}
+            path="/fornecedores"
+            element={<ProtectedRoute component={Fornecedores} />}
+          />
+          <Route
+            path="/produtos"
+            element={<ProtectedRoute component={Produtos} />}
           />
         </Routes>
       </HashRouter>

@@ -168,7 +168,7 @@ export function Inicio() {
           toast.error("Feil ved sletting av spørsmål.", { autoClose: 2000 });
         }
       } catch (error) {
-        console.log("Erro ao deletar pergunta.", error);
+        // console.log("Erro ao deletar pergunta.", error);
       } finally {
         setOpenDeleteQuestion(false); // Fecha o modal
         setSelectedQuestion(null); // Limpa o cliente selecionado

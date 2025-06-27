@@ -119,7 +119,6 @@ export function Login() {
               required
               value={user.bruker}
               onChange={(e: any) => {
-                console.log(e.target.value);
                 setUser((prevState: any) => ({
                   ...prevState,
                   bruker: e.target.value.toUpperCase(),
