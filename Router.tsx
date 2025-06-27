@@ -12,6 +12,7 @@ import { Confirmacao } from "./src/pages/Home/confirmacao";
 import { VideoInfo, VideosInfo } from "./src/pages/Home/video_info";
 import PrivacyPolicy from "./src/pages/Home/privacy";
 import BeginPage from "./src/pages/Home/home";
+import { Produtos } from "./src/pages/Home/produtos";
 
 export function Router() {
   return (

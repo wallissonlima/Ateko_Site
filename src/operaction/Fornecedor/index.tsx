@@ -9,10 +9,7 @@ interface iProps {
 }
 
 const FornecedorSchema = z.object({
-  nome: z
-    .string()
-    .min(3, { message: "A área deve ter pelo menos 3 caracteres" })
-    .max(500),
+  nome: z.string().min(3, { message: "Navnet må ha minst 3 tegn" }).max(500),
 });
 
 export function CadFornecedor({ dt, up }: iProps) {
@@ -27,8 +24,8 @@ export function CadFornecedor({ dt, up }: iProps) {
     const { name, value } = e.target;
     const newDt = { ...dt, [name]: value };
     try {
-      FornecedorSchema.parse(newDt); // Tenta validar o objeto atualizado
-      setErrors({ ...errors, [name]: "" }); // Limpa o erro se válido
+      FornecedorSchema.parse(newDt); // Prøver å validere det oppdaterte objektet
+      setErrors({ ...errors, [name]: "" }); // Fjerner feilen hvis gyldig
     } catch (err) {
       if (err instanceof z.ZodError) {
         setErrors({
@@ -38,14 +35,14 @@ export function CadFornecedor({ dt, up }: iProps) {
         });
       }
     }
-    up(e); // Chama a função de atualização
+    up(e); // Kaller oppdateringsfunksjonen
   };
 
   return (
     <Form>
       <Row style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
         <Col lg={7}>
-          <Label>Nome</Label>
+          <Label>Navn</Label>
           <Input
             name="nome"
             type="text"
@@ -60,7 +57,7 @@ export function CadFornecedor({ dt, up }: iProps) {
           )}
         </Col>
         <Col lg={8}>
-          <Label>E-mail</Label>
+          <Label>E-post</Label>
           <Input
             required
             name="email"
@@ -70,12 +67,12 @@ export function CadFornecedor({ dt, up }: iProps) {
             onChange={handleChange}
             invalid={!!errors.email}
           />
-          {errors.nome && (
+          {errors.email && (
             <p style={{ color: "red", fontSize: "0.875rem" }}>{errors.email}</p>
           )}
         </Col>
         <Col lg={8}>
-          <Label>Contato</Label>
+          <Label>Kontakt</Label>
           <Input
             required
             name="contato"
@@ -85,12 +82,14 @@ export function CadFornecedor({ dt, up }: iProps) {
             onChange={handleChange}
             invalid={!!errors.contato}
           />
-          {errors.nome && (
-            <p style={{ color: "red", fontSize: "0.875rem" }}>{errors.email}</p>
+          {errors.contato && (
+            <p style={{ color: "red", fontSize: "0.875rem" }}>
+              {errors.contato}
+            </p>
           )}
         </Col>
         <Col lg={8}>
-          <Label>Tipo distribuição</Label>
+          <Label>Distribusjonstype</Label>
           <Input
             required
             name="tipo_distribuicao"
@@ -100,13 +99,13 @@ export function CadFornecedor({ dt, up }: iProps) {
             onChange={handleChange}
             invalid={!!errors.tipo_distribuicao}
           />
-          {errors.nome && (
-            <p style={{ color: "red", fontSize: "0.875rem" }}>{errors.email}</p>
+          {errors.tipo_distribuicao && (
+            <p style={{ color: "red", fontSize: "0.875rem" }}>
+              {errors.tipo_distribuicao}
+            </p>
           )}
         </Col>
       </Row>
     </Form>
-
-    
   );
 }

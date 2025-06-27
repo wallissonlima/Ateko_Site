@@ -11,7 +11,7 @@ interface iProps {
 const produtoSchema = z.object({
   nome_produto: z
     .string()
-    .min(3, { message: "A área deve ter pelo menos 3 caracteres" })
+    .min(3, { message: "Navnet må ha minst 3 tegn" })
     .max(500),
 });
 
@@ -32,8 +32,8 @@ export function CadProduto({ dt, up }: iProps) {
     const { name, value } = e.target;
     const newDt = { ...dt, [name]: value };
     try {
-      produtoSchema.parse(newDt); // Tenta validar o objeto atualizado
-      setErrors({ ...errors, [name]: "" }); // Limpa o erro se válido
+      produtoSchema.parse(newDt); // Prøver å validere det oppdaterte objektet
+      setErrors({ ...errors, [name]: "" }); // Fjerner feilen hvis gyldig
     } catch (err) {
       if (err instanceof z.ZodError) {
         setErrors({
@@ -43,10 +43,10 @@ export function CadProduto({ dt, up }: iProps) {
         });
       }
     }
-    up(e); // Chama a função de atualização
+    up(e); // Kaller oppdateringsfunksjonen
   };
 
-  // Função para tratar input file e converter para base64
+  // Funksjon for å håndtere filinndata og konvertere til base64
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -55,8 +55,8 @@ export function CadProduto({ dt, up }: iProps) {
     reader.onloadend = () => {
       const base64data = reader.result as string;
 
-      // Como você não tem evento padrão para essa atualização,
-      // vamos criar um evento fake para chamar o 'up'
+      // Siden du ikke har en standardhendelse for denne oppdateringen,
+      // lager vi en falsk hendelse for å kalle 'up'
       const fakeEvent = {
         target: {
           name: "img",
@@ -74,7 +74,7 @@ export function CadProduto({ dt, up }: iProps) {
     <Form>
       <Row style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
         <Col lg={7}>
-          <Label>Nome produto</Label>
+          <Label>Produktnavn</Label>
           <Input
             name="nome_produto"
             type="text"
@@ -91,7 +91,7 @@ export function CadProduto({ dt, up }: iProps) {
           )}
         </Col>
         <Col lg={8}>
-          <Label>Tipo produto</Label>
+          <Label>Produkttype</Label>
           <Input
             required
             name="tipo_produto"
@@ -108,13 +108,13 @@ export function CadProduto({ dt, up }: iProps) {
           )}
         </Col>
         <Col lg={8}>
-          <Label htmlFor="img">Imagem</Label>
+          <Label htmlFor="img">Bilde</Label>
           <input
             required
             name="img"
             type="file"
             accept="image/*"
-            onChange={handleFileChange} // Aqui é a mudança
+            onChange={handleFileChange} // Her er endringen
             className={errors.img ? "is-invalid" : ""}
           />
           {errors.img && (

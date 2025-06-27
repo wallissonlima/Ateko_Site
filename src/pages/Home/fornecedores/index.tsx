@@ -35,7 +35,7 @@ export function Fornecedores() {
   const [isEditFornecedor, setIsEditFornecedor] = useState(false);
   const [selectedFornecedor, setSelectedFornecedor] = useState<any>(null);
 
-  //registro os dados dos fornecedores
+  // registrerer dataene til leverandørene
   const [registroFornecedor, setRegistroFornecedor] =
     useState<iFornecedorProps>({
       objID: uuidv4(),
@@ -45,28 +45,28 @@ export function Fornecedores() {
       tipo_distribuicao: "",
     });
 
-  //Função para trazer todos os forncedores
+  // Funksjon for å hente alle leverandører
   const LoadingFornecedores = async () => {
     try {
-      const result = await _getAllFornecedor(); // Nova função de requisição
+      const result = await _getAllFornecedor(); // Ny forespørselsfunksjon
       if (result) {
         setLstfornecedor(result);
       } else {
-        setLstfornecedor([]); // Limpa a tabela se não houver fazendas para o cliente selecionado
-        toast.info("Nenhum fornecedor cadastrado", {
+        setLstfornecedor([]); // Tømmer tabellen hvis det ikke finnes leverandører for den valgte kunden
+        toast.info("Ingen leverandører registrert", {
           autoClose: 2000,
         });
       }
     } catch (error) {
-      // console.error("Erro ao carregar fazendas do cliente:", error);
-      toast.error("Erro ao carregar os fornecedores.", { autoClose: 1500 });
+      // console.error("Feil ved lasting av leverandører for kunden:", error);
+      toast.error("Feil ved lasting av leverandører.", { autoClose: 1500 });
     }
   };
   useEffect(() => {
-    LoadingFornecedores(); // Chama a função para carregar as perguntas
+    LoadingFornecedores(); // Kaller funksjonen for å laste leverandørene
   }, []);
 
-  //para criar uma novo fornecedor
+  // for å opprette en ny leverandør
   const createFornecedor = (e: any) => {
     setRegistroFornecedor((prevState: any) => ({
       ...prevState,
@@ -74,19 +74,19 @@ export function Fornecedores() {
     }));
   };
 
-  //adicionar um nova perguta
+  // legge til en ny leverandør
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     if (!registroFornecedor.nome) {
-      toast.error("Por favor, preencha todos os campos obrigatórios.", {
+      toast.error("Vennligst fyll ut alle obligatoriske felt.", {
         autoClose: 3000,
       });
       return;
     }
     const result = await _createFornecedor(registroFornecedor);
 
-    // Limpar o formulário
+    // Tøm skjemaet
     setRegistroFornecedor({
       objID: "",
       nome: "",
@@ -100,35 +100,35 @@ export function Fornecedores() {
     }
   };
 
-  //editar fornecedor
+  // redigere leverandør
   const handleEdit = async () => {
     try {
-      const result = await _UpdateFornecedor(registroFornecedor); // Envia o estado `registro` para a API
+      const result = await _UpdateFornecedor(registroFornecedor); // Sender tilstanden `registro` til API-et
 
       if (result) {
-        // toast.success("Cliente atualizado com sucesso!");
-        setOpenCadastroFornecedor(false); // Fecha o modal após a atualização
+        // toast.success("Kunde oppdatert med suksess!");
+        setOpenCadastroFornecedor(false); // Lukker modalen etter oppdateringen
 
         if (result) {
           LoadingFornecedores();
           setOpenCadastroFornecedor(false);
         }
       } else {
-        toast.error("Erro ao atualizar cliente.", { autoClose: 3000 });
+        toast.error("Feil ved oppdatering av kunde.", { autoClose: 3000 });
       }
     } catch (error) {
-      console.error("Erro ao atualizar cliente:", error);
-      toast.error("Erro ao atualizar cliente.", { autoClose: 3000 });
+      console.error("Feil ved oppdatering av kunde:", error);
+      toast.error("Feil ved oppdatering av kunde.", { autoClose: 3000 });
     }
   };
 
-  //carregar os fornecedor para editar
+  // laste leverandør for redigering
   const loodingFornecedor = async (e: any) => {
     setIsEditFornecedor(true);
-    // Encontre a linha (<tr>) mais próxima do elemento clicado
+    // Finn nærmeste rad (<tr>) til det klikkede elementet
     const row = e.target.closest("tr");
-    // Aqui você pode pegar os dados das células da linha, se necessário
-    // Por exemplo, se cada célula tiver um dataset com informações relevantes
+    // Her kan du hente data fra cellene i raden, om nødvendig
+    // For eksempel, hvis hver celle har et datasett med relevant informasjon
     const objID = row.querySelector(".objID").innerText;
 
     try {
@@ -144,45 +144,45 @@ export function Fornecedores() {
           tipo_distribuicao: fornecedor.tipo_distribuicao,
         }));
       } else {
-        toast.info("Pergunta não encontrado.", { autoClose: 2000 });
+        toast.info("Leverandør ikke funnet.", { autoClose: 2000 });
       }
     } catch (error) {
-      console.error("Erro ao carregar Pergunta:", error);
-      toast.error("Erro ao carregar o Pergunta.", { autoClose: 2000 });
+      console.error("Feil ved lasting av leverandør:", error);
+      toast.error("Feil ved lasting av leverandør.", { autoClose: 2000 });
     }
   };
 
-  //Deleta fornecedores
+  // Slette leverandører
   const handleDelete = async () => {
     if (selectedFornecedor) {
       try {
         const result = await _DeleteFornecedor(selectedFornecedor.objID);
         if (result) {
-          toast.success("Fornecedor deletado com sucesso!", {
+          toast.success("Leverandør slettet med suksess!", {
             autoClose: 2000,
           });
           LoadingFornecedores();
         } else {
-          toast.error("Erro ao deletar fornecedor.", { autoClose: 2000 });
+          toast.error("Feil ved sletting av leverandør.", { autoClose: 2000 });
         }
       } catch (error) {
-        // console.log("Erro ao deletar fornecedor.", error);
+        // console.log("Feil ved sletting av leverandør.", error);
       } finally {
-        setOpenDeleteFornecedor(false); // Fecha o modal
-        setSelectedFornecedor(null); // Limpa o fornecedor selecionado
+        setOpenDeleteFornecedor(false); // Lukker modalen
+        setSelectedFornecedor(null); // Tømmer den valgte leverandøren
       }
     }
   };
-  //Modal Deletar
+  // Modal Slette
   const openDeleteModal = (e: any) => {
     const row = e.target.closest("tr");
     const objID = row.querySelector(".objID").innerText;
 
-    // Localiza o fornecedor específico com base no objID
+    // Lokaliser den spesifikke leverandøren basert på objID
     const fornecedor = lstFornecedor.find((c) => c.objID === objID);
     if (fornecedor) {
-      setSelectedFornecedor(fornecedor); // Define o cliente no estado
-      setOpenDeleteFornecedor(true); // Abre o modal
+      setSelectedFornecedor(fornecedor); // Setter leverandøren i tilstanden
+      setOpenDeleteFornecedor(true); // Åpner modalen
     }
   };
 
@@ -203,7 +203,7 @@ export function Fornecedores() {
             setIsEditFornecedor(false);
           }}
         >
-          Novo fornecedor
+          Ny leverandør
         </NewButton>
         <PageHeader />
         <NewTransactionTable>
@@ -211,12 +211,12 @@ export function Fornecedores() {
             <thead>
               <tr>
                 <th hidden={true}>objID</th>
-                <th>nome</th>
-                <th>email</th>
-                <th>contato</th>
-                <th>tipo_distribuicao</th>
-                <th>editar</th>
-                <th>Deletar</th>
+                <th>navn</th>
+                <th>e-post</th>
+                <th>kontakt</th>
+                <th>distribusjonstype</th>
+                <th>rediger</th>
+                <th>Slett</th>
               </tr>
             </thead>
             <tbody>
@@ -258,10 +258,8 @@ export function Fornecedores() {
         <CustomModalHeader>
           <h2 style={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}>
             {isEditFornecedor
-              ? `
-              Rediger spørsmål `
-              : `
-              Registrer nytt spørsmål`}
+              ? `Rediger leverandør`
+              : `Registrer ny leverandør`}
           </h2>
         </CustomModalHeader>
         <ModalBody>
@@ -271,26 +269,26 @@ export function Fornecedores() {
           <NewButton
             type="submit"
             onClick={(e: any) => {
-              e.preventDefault(); // Evita que o formulário seja enviado
+              e.preventDefault(); // Hindrer at skjemaet sendes
               if (isEditFornecedor) {
-                handleEdit(); // Chama a função de atualização (PUT)
+                handleEdit(); // Kaller oppdateringsfunksjonen (PUT)
               } else {
-                handleSubmit(e); // Chama a função de criação (POST)
+                handleSubmit(e); // Kaller opprettelsesfunksjonen (POST)
               }
             }}
           >
-            {isEditFornecedor ? `Berging` : `Register`}
+            {isEditFornecedor ? `Lagre` : `Registrer`}
           </NewButton>
           <ButtonClose
             type="button"
             onClick={() => setOpenCadastroFornecedor(!openCadastroFornecedor)}
           >
-            Berging
+            Avbryt
           </ButtonClose>
         </ModalFooter>
       </Modal>
 
-      {/*Modal messagem deletar cliente */}
+      {/* Modal melding slette leverandør */}
       <Modal isOpen={openDeleteFornecedor} centered={true} size="lm">
         <ModalHeader style={{ background: "#8B0000" }}>
           <h2
@@ -300,14 +298,13 @@ export function Fornecedores() {
               fontFamily: "Arial, sans-serif",
             }}
           >
-            Varsle!!
+            Advarsel!!
           </h2>
         </ModalHeader>
         {selectedFornecedor ? (
           <ModalBody>
             <h5>
-              Vil du slette denne klienten?{" "}
-              <b>{selectedFornecedor.questionTexts}</b>
+              Vil du slette denne leverandøren? <b>{selectedFornecedor.nome}</b>
             </h5>
           </ModalBody>
         ) : (
@@ -317,13 +314,13 @@ export function Fornecedores() {
         )}
         <ModalFooter>
           <NewButton type="submit" onClick={handleDelete}>
-            Bekrefte
+            Bekreft
           </NewButton>
           <ButtonClose
             type="button"
             onClick={() => setOpenDeleteFornecedor(!openDeleteFornecedor)}
           >
-            Kansellere
+            Avbryt
           </ButtonClose>
         </ModalFooter>
       </Modal>
