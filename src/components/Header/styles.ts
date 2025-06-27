@@ -15,11 +15,6 @@ export const Context = styled.nav`
     flex-wrap: nowrap;
   }
 
-  .navbar-collapse {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
   .nav-link {
     font-weight: bold;
     color: white;

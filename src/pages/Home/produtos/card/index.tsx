@@ -1,9 +1,10 @@
 import {
-  Button,
   CardBody,
   CardFooter,
   DropdownToggle,
   UncontrolledDropdown,
+  Row,
+  Col,
 } from "reactstrap";
 
 import {
@@ -14,9 +15,6 @@ import {
   CustonCardHeader,
 } from "./styles";
 
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { _getAllProdutos } from "../../../../services/produtos";
 import iProdutoProps from "../../../../interfaces/produto";
 import { Gear } from "phosphor-react";
 
@@ -25,85 +23,75 @@ interface CardProdutosProps {
   onEditProduto: (produto: iProdutoProps) => void;
   onDeleteProduto: (produto: iProdutoProps) => void;
 }
+
 export const CardProdutos = ({
   produtos,
   onEditProduto,
   onDeleteProduto,
 }: CardProdutosProps) => {
-  const [lstProduto, setLstProduto] = useState<iProdutoProps[]>([]);
-
-  //Função para trazer todos os produtos
-  const LoadingProdutos = async () => {
-    try {
-      const result = await _getAllProdutos();
-      if (result) {
-        setLstProduto(result);
-      } else {
-        setLstProduto([]);
-        toast.info("Nenhum produto cadastrado", { autoClose: 2000 });
-      }
-    } catch (error) {
-      toast.error("Erro ao carregar os produtos.", { autoClose: 1500 });
-    }
-  };
-
-  useEffect(() => {
-    LoadingProdutos();
-  }, []);
-
   return (
     <Context>
       {produtos.length === 0 && (
-        <p>Nenhum produto para o fornecedor selecionado.</p>
+        <p>Ingen produkter for den valgte leverandøren.</p>
       )}
 
-      {produtos.map((produto) => (
-        <CustomCard key={produto.objID}>
-          <CustonCardHeader>
-            {produto.img && (
-              <img
-                src={produto.img}
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                  borderRadius: "8px",
-                }}
-              />
-            )}
-          </CustonCardHeader>
-          <CardBody>
-            <p>
-              <b>Nome do produto:</b> {produto.nome_produto}
-            </p>
-            <p>
-              <b>Tipo:</b> {produto.tipo_produto}
-            </p>
-          </CardBody>
-          <CardFooter className="selectIcon">
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <UncontrolledDropdown>
-                <DropdownToggle nav caret>
-                  <Gear
-                    size={30}
+      <Row>
+        {produtos.map((produto) => (
+          <Col xs="12" sm="12" md="4" key={produto.objID} className="mb-3">
+            <CustomCard>
+              <CustonCardHeader>
+                {produto.img && (
+                  <img
+                    src={produto.img}
+                    alt={produto.nome_produto}
                     style={{
-                      color: "hsl(120, 100%, 19.607843137254903%)",
+                      width: "100%",
+                      height: "150px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
                     }}
                   />
-                </DropdownToggle>
-                <CustomDropdownMenu>
-                  <CustomDropdownItem onClick={() => onEditProduto(produto)}>
-                    Editar
-                  </CustomDropdownItem>
-                  <CustomDropdownItem divider />
-                  <CustomDropdownItem onClick={() => onDeleteProduto(produto)}>
-                    Deleta
-                  </CustomDropdownItem>
-                </CustomDropdownMenu>
-              </UncontrolledDropdown>
-            </div>
-          </CardFooter>
-        </CustomCard>
-      ))}
+                )}
+              </CustonCardHeader>
+              <CardBody>
+                <p>
+                  <b>Produktnavn:</b> {produto.nome_produto}
+                </p>
+                <p>
+                  <b>Type:</b> {produto.tipo_produto}
+                </p>
+              </CardBody>
+              <CardFooter className="selectIcon">
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <UncontrolledDropdown>
+                    <DropdownToggle nav caret>
+                      <Gear
+                        size={30}
+                        style={{
+                          color: "hsl(120, 100%, 19.607843137254903%)",
+                        }}
+                      />
+                    </DropdownToggle>
+                    <CustomDropdownMenu>
+                      <CustomDropdownItem
+                        onClick={() => onEditProduto(produto)}
+                      >
+                        Rediger
+                      </CustomDropdownItem>
+                      <CustomDropdownItem divider />
+                      <CustomDropdownItem
+                        onClick={() => onDeleteProduto(produto)}
+                      >
+                        Slett
+                      </CustomDropdownItem>
+                    </CustomDropdownMenu>
+                  </UncontrolledDropdown>
+                </div>
+              </CardFooter>
+            </CustomCard>
+          </Col>
+        ))}
+      </Row>
     </Context>
   );
 };
