@@ -10,6 +10,8 @@ import { Agendamento } from "./src/pages/Home/agendamento";
 import { NovaSenha } from "./src/pages/Home/novaSenha";
 import { Confirmacao } from "./src/pages/Home/confirmacao";
 import { VideoInfo, VideosInfo } from "./src/pages/Home/video_info";
+import PrivacyPolicy from "./src/pages/Home/privacy";
+import BeginPage from "./src/pages/Home/home";
 
 export function Router() {
   return (
@@ -34,6 +36,9 @@ export function Router() {
           <Route path="/" element={<NavLogin />} />
           <Route path="/novasenha/:token" element={<NovaSenha />} />
           <Route path="/confirmacao/:token" element={<Confirmacao />} />
+
+          <Route path="/home" element={<BeginPage />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
           <Route
             path="/start"
